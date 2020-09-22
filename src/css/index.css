@@ -1,0 +1,46 @@
+html, body {
+    height: 100%;      
+    padding: 0px;
+    margin: 0px;
+    background-color: lightgrey;
+}
+
+div.container {   
+    height: 100%;
+    
+    display: flex;
+    flex-direction: column;    
+    justify-content: center;
+    align-items: center; 
+    font-family: 'Kufam', cursive;
+}
+
+.counterLabel{    
+    font-size: 5em;
+}
+
+.counter {            
+    font-size: 7em;
+}
+
+.buttonContainer{
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+}
+
+.buttonContainer button{
+    font-family: 'Kufam', cursive;
+    font-size: 3em;    
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+
+.nextPageButton {
+    font-family: 'Kufam', cursive;
+    font-size: 3em;    
+    border: 1px solid blue;
+    border-radius: 5px;
+    margin-top: 15px;
+}
