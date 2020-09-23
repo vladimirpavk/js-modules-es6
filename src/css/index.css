@@ -44,3 +44,11 @@ div.container {
     border-radius: 5px;
     margin-top: 15px;
 }
+
+.prevPageButton {
+    font-family: 'Kufam', cursive;
+    font-size: 3em;    
+    border: 1px solid blue;
+    border-radius: 5px;
+    margin-top: 15px;
+}
