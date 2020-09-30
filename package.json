@@ -1,9 +1,14 @@
 {
   "scripts": {
-    "dev": "lite-server"
+    "dev": "lite-server",
+    "bundle": "webpack"
   },
-  "dependencies": {},
+  "dependencies": {
+    "path": "^0.12.7"
+  },
   "devDependencies": {
-    "lite-server": "^2.5.4"
+    "lite-server": "^2.5.4",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   }
 }
