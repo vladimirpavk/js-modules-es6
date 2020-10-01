@@ -27,8 +27,6 @@ HtmlParser.getNextPageButton().addEventListener('click', (event)=>{
     HtmlParser.getWindow().location='page2.html';
 }) */
 
-let bodyRoot = document.getElementById('root');
-
 const resetButton = document.createElement('button');
 /* resetButton.id = 'resetButton'; */
 resetButton.setAttribute('id', 'resetButton');
@@ -61,13 +59,14 @@ const nextPageButton = document.createElement('button');
 nextPageButton.classList.add('nextPageButton');
 nextPageButton.innerHTML = 'Next Page';
 
-const containerDiv = document.createElement('div');
+export const containerDiv = document.createElement('div');
 containerDiv.classList.add('container');
 containerDiv.appendChild(labelCounterLabel);
 containerDiv.appendChild(labelCounter);
 containerDiv.appendChild(buttonContainer);
 containerDiv.appendChild(nextPageButton);
 
-bodyRoot.appendChild(containerDiv);
-
-console.log(containerDiv);
+const nextPageEvent = new CustomEvent('nextPage', {detail: {name:'Go to next page...yeah!!!'}});
+nextPageButton.addEventListener('click', (eventData)=>{
+    containerDiv.dispatchEvent(nextPageEvent);
+})

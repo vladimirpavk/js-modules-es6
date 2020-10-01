@@ -4,7 +4,7 @@ import * as HtmlParser from './utils/htmlParser.js';
 
 //console.log('From module imports', Counter, Math, HtmlParser);
 //let counter = new Counter();
-let counterElement = HtmlParser.getCounter();
+/* let counterElement = HtmlParser.getCounter();
 
 setInterval(()=>{
     counterElement.innerHTML = counter.getValue();
@@ -25,4 +25,5 @@ HtmlParser.getMinusButton().addEventListener('click', (event)=>{
 
 HtmlParser.getPrevPageButton().addEventListener('click', (event)=>{
     HtmlParser.getWindow().history.back();
-})
+}) */
+
