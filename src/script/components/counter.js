@@ -1,35 +1,46 @@
-const resetButton = document.createElement('button');
-/* resetButton.id = 'resetButton'; */
-resetButton.setAttribute('id', 'resetButton');
-resetButton.innerHTML = 'Reset';
+class Counter extends HTMLElement{
+    
+    constructor(){
+        super();
+        this.render();
+    }
 
-const plusButton = document.createElement('button');
-/* plusButton.id = 'plusButton'; */
-plusButton.setAttribute('id', 'plusButton');
-plusButton.innerHTML = '+5';
+    render(){
+        console.log('Counter render()');
+        const resetButton = document.createElement('button');
+        resetButton.setAttribute('id', 'resetButton');
+        resetButton.innerHTML = 'Reset';
 
-const minusButton = document.createElement('button');
-/* minusButton.id = 'minusButton'; */
-minusButton.setAttribute('id', 'minusButton');
-minusButton.innerHTML = '-5';
+        const plusButton = document.createElement('button');
+        plusButton.setAttribute('id', 'plusButton');
+        plusButton.innerHTML = '+5';
 
-const buttonContainer = document.createElement('div');
-buttonContainer.classList.add('buttonContainer');
-buttonContainer.appendChild(resetButton);
-buttonContainer.appendChild(plusButton);
-buttonContainer.appendChild(minusButton);
+        const minusButton = document.createElement('button');
+        minusButton.setAttribute('id', 'minusButton');
+        minusButton.innerHTML = '-5';
 
-const labelCounter = document.createElement('label');
-labelCounter.classList.add('counter');
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('buttonContainer');
+        buttonContainer.appendChild(resetButton);
+        buttonContainer.appendChild(plusButton);
+        buttonContainer.appendChild(minusButton);
 
-const labelCounterLabel = document.createElement('label')
-labelCounterLabel.classList.add('counterLabel');
-labelCounterLabel.innerHTML = 'js-module counter';
+        const labelCounter = document.createElement('label');
+        labelCounter.classList.add('counter');
 
-let counter;
-counter.appendChild(labelCounterLabel);
-counter.appendChild(labelCounter);
-counter.appendChild(buttonContainer);
+        const labelCounterLabel = document.createElement('label')
+        labelCounterLabel.classList.add('counterLabel');
+        labelCounterLabel.innerHTML = 'js-module counter';
 
-export default counter;
+        this.appendChild(labelCounterLabel);
+        this.appendChild(labelCounter);
+        this.appendChild(buttonContainer);
+    }
+
+}
+
+export default Counter;
+
+//register custom component
+window.customElements.define('co-unter', Counter);
 
