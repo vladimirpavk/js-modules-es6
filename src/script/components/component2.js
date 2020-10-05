@@ -3,6 +3,10 @@ import Counter from './counter.js';
 class Component2 extends HTMLElement{    
     constructor(){
         super();
+    }
+
+    connectedCallback(){
+        console.log('Component2 connectedCallback()')
         this.render();
     }
 

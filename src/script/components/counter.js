@@ -1,12 +1,17 @@
 class Counter extends HTMLElement{
+
+    template;
+    shadowRoot;
     
     constructor(){
         super();
-        this.render();
+        this.createTemplate();
+        this.shadowRoot = this.attachShadow({mode: 'open'});
     }
 
-    render(){
-        console.log('Counter render()');
+    createTemplate(){
+        this.template = document.createElement('template');
+
         const resetButton = document.createElement('button');
         resetButton.setAttribute('id', 'resetButton');
         resetButton.innerHTML = 'Reset';
@@ -32,9 +37,19 @@ class Counter extends HTMLElement{
         labelCounterLabel.classList.add('counterLabel');
         labelCounterLabel.innerHTML = 'js-module counter';
 
-        this.appendChild(labelCounterLabel);
-        this.appendChild(labelCounter);
-        this.appendChild(buttonContainer);
+        this.template.appendChild(labelCounterLabel);
+        this.template.appendChild(labelCounter);
+        this.template.appendChild(buttonContainer);
+    }
+
+    //called when component is mounted
+    connectedCallback(){
+        console.log('Counter connected callback');
+        this.render();
+    }
+
+    render(){
+        this.shadowRoot.appendChild(this.template.cloneNode(true));
     }
 
 }
