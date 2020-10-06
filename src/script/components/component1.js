@@ -3,16 +3,16 @@ import Counter from './counter.js';
 class Component1 extends HTMLElement{
     constructor(){
         super();
-        console.log('Component1 constructor()');        
+        //console.log('Component1 constructor()');        
     }
 
     connectedCallback(){
-        console.log('Component1 connectedCallback()')
+        //console.log('Component1 connectedCallback()')
         this.render();
     }
 
     render(){
-        console.log('Component1 render()');
+        //console.log('Component1 render()');
         let counterElement = document.createElement('co-unter');
         this.appendChild(counterElement);
     }

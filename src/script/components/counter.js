@@ -5,12 +5,34 @@ class Counter extends HTMLElement{
     
     constructor(){
         super();
-        this.createTemplate();
+        //this.createTemplate();
+        this.createTemplateFromString();
         this.shadowRoot = this.attachShadow({mode: 'open'});
     }
 
-    createTemplate(){
+    createTemplateFromString(){
+        let HTMLString = `            
+            <label class="counterLabel">js-modules counter</label>
+            <label class="counter"></label>
+            <div class="buttonContainer">
+                <button id="resetButton">Reset</button>
+                <button id="plusButton">+5</button>
+                <button id="minusButton">-5</button>
+            </div>
+            <button class="nextPageButton">Next Page</button>            
+        `;        
+        
         this.template = document.createElement('template');
+        
+        const templateContent = document.createElement('div');
+        templateContent.innerHTML = HTMLString;
+        this.template.content.appendChild(templateContent);
+
+        console.log(this.template.content);
+    }
+
+    createTemplatePureJS(){
+        this.template.content = document.createElement('template');
 
         const resetButton = document.createElement('button');
         resetButton.setAttribute('id', 'resetButton');
@@ -37,19 +59,21 @@ class Counter extends HTMLElement{
         labelCounterLabel.classList.add('counterLabel');
         labelCounterLabel.innerHTML = 'js-module counter';
 
-        this.template.appendChild(labelCounterLabel);
-        this.template.appendChild(labelCounter);
-        this.template.appendChild(buttonContainer);
+        this.template.content.appendChild(labelCounterLabel);
+        this.template.content.appendChild(labelCounter);
+        this.template.content.appendChild(buttonContainer);
+      /*   console.log(this.template);
+        console.log(this.template.content.cloneNode(true)); */
     }
 
     //called when component is mounted
     connectedCallback(){
-        console.log('Counter connected callback');
+        //console.log('Counter connected callback');
         this.render();
     }
 
     render(){
-        this.shadowRoot.appendChild(this.template.cloneNode(true));
+        //this.shadowRoot.appendChild(this.template.content.cloneNode(true));
     }
 
 }
