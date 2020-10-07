@@ -1,19 +1,25 @@
-import Counter from './counter.js';
+import Counter from './counter/counter.js';
 
 class Component1 extends HTMLElement{
     constructor(){
-        super();
-        //console.log('Component1 constructor()');        
+        super();    
     }
 
     connectedCallback(){
-        //console.log('Component1 connectedCallback()')
         this.render();
     }
 
     render(){
-        //console.log('Component1 render()');
         let counterElement = document.createElement('co-unter');
+        counterElement.addEventListener('plusButtonClicked', function(){
+            console.log('Counter +5 button clicked');
+        });
+        counterElement.addEventListener('minusButtonClicked', function(){
+            console.log('Counter -5 button clicked');
+        });
+        counterElement.addEventListener('resetButtonClicked', function(){
+            console.log('Counter reset button clicked');
+        });
         this.appendChild(counterElement);
     }
 }

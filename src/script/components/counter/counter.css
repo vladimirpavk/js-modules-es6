@@ -1,12 +1,6 @@
-html, body, #root {
-    height: 100%;      
-    padding: 0px;
-    margin: 0px;
-    background-color: lightgrey;
-}
-
 div.container {   
-    height: 100%;    
+    height: 100%;
+    
     display: flex;
     flex-direction: column;    
     justify-content: center;
@@ -34,20 +28,4 @@ div.container {
     font-size: 3em;    
     border: 1px solid blue;
     border-radius: 5px;
-}
-
-.nextPageButton {
-    font-family: 'Kufam', cursive;
-    font-size: 3em;    
-    border: 1px solid blue;
-    border-radius: 5px;
-    margin-top: 15px;
-}
-
-.prevPageButton {
-    font-family: 'Kufam', cursive;
-    font-size: 3em;    
-    border: 1px solid blue;
-    border-radius: 5px;
-    margin-top: 15px;
 }

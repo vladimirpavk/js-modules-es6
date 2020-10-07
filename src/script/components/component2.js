@@ -1,4 +1,4 @@
-import Counter from './counter.js';
+import Counter from './counter/counter.js';
 
 class Component2 extends HTMLElement{    
     constructor(){
