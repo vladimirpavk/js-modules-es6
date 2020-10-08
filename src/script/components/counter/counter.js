@@ -33,23 +33,16 @@ class Counter extends HTMLElement{
         
         this.style = linkElem;        
         this.template = templateContent;
-    }
+    }  
 
-    eventBuilder() {
-        this.shadowRoot.querySelector('#plusButton').addEventListener('click', function(){
-            console.log('plusButtonClicked');
-            this.dispatchEvent(new CustomEvent('plusButtonClicked', {
-                bubbles: true
-            }));
+    eventBuilder() {      
+        this.shadowRoot.querySelector('#plusButton').addEventListener('click', ()=>{
+            this.dispatchEvent(new CustomEvent('plusButtonClicked'));
         });
-
-        this.shadowRoot.querySelector('#minusButton').addEventListener('click', function(){
-            console.log('minusButtonClicked');
+        this.shadowRoot.querySelector('#minusButton').addEventListener('click', ()=>{    
             this.dispatchEvent(new Event('minusButtonClicked'));
         });
-
-        this.shadowRoot.querySelector('#resetButton').addEventListener('click', function(){
-            console.log('resetButtonClicked');
+        this.shadowRoot.querySelector('#resetButton').addEventListener('click', ()=>{            
             this.dispatchEvent(new Event('resetButtonClicked'))
         });
     }
@@ -59,11 +52,21 @@ class Counter extends HTMLElement{
         this.render();
     }
 
+    //called when component attribute is changed
+    attributeChangedCallback(name, oldValue, newValue){
+        console.log(name, oldValue, newValue);
+    }
+
+    //set what attribute to watch
+    static get observedAttributes() { return ['value'] }
+
     render(){
         this.shadowRoot.appendChild(this.style);
         this.shadowRoot.appendChild(this.template.cloneNode(true));
 
-        this.eventBuilder();        
+        this.eventBuilder();
+
+        console.log(this.getAttribute('value'));
     }
 
 }
@@ -71,4 +74,9 @@ class Counter extends HTMLElement{
 export default Counter;
 
 //register custom component
+window.customElements.whenDefined('co-unter').then(
+    (data)=>{
+        console.log('co-unter defined', data);
+    }
+);
 window.customElements.define('co-unter', Counter);

@@ -20,6 +20,13 @@ class Component1 extends HTMLElement{
         counterElement.addEventListener('resetButtonClicked', function(){
             console.log('Counter reset button clicked');
         });
+
+        let val=0;
+        setInterval(()=>{
+            val++;
+            counterElement.setAttribute('value', val);
+        },300); 
+               
         this.appendChild(counterElement);
     }
 }
