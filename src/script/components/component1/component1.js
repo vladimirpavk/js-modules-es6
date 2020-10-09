@@ -1,4 +1,4 @@
-import Counter from './counter/counter.js';
+import Counter from '../counter/counter.js';
 
 class Component1 extends HTMLElement{
     constructor(){
@@ -11,7 +11,22 @@ class Component1 extends HTMLElement{
 
     render(){
         let counterElement = document.createElement('co-unter');
-        counterElement.addEventListener('plusButtonClicked', function(){
+        this.appendChild(counterElement);
+
+        let nextPageButton = document.createElement('button');
+        nextPageButton.setAttribute('class', 'nextPageButton')
+        nextPageButton.addEventListener('click', ()=>{
+            this.dispatchEvent(new Event('nextPageClicked'));
+        });
+        nextPageButton.innerHTML = "Go to next page";
+        this.appendChild(nextPageButton);
+
+        let linkElement = document.createElement('link');
+        linkElement.setAttribute('rel', 'stylesheet');
+        linkElement.setAttribute('href', './script/components/component1/component1.css');
+
+        this.appendChild(linkElement);
+        /* counterElement.addEventListener('plusButtonClicked', function(){
             console.log('Counter +5 button clicked');
         });
         counterElement.addEventListener('minusButtonClicked', function(){
@@ -19,15 +34,12 @@ class Component1 extends HTMLElement{
         });
         counterElement.addEventListener('resetButtonClicked', function(){
             console.log('Counter reset button clicked');
-        });
-
-        let val=0;
+        });        */        
+/*      let val=0;
         setInterval(()=>{
             val++;
             counterElement.setAttribute('value', val);
-        },300); 
-               
-        this.appendChild(counterElement);
+        },300);  */
     }
 }
 

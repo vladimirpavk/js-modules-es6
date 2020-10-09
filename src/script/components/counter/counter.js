@@ -1,13 +1,17 @@
+import CounterStorage from '../../utils/counterStorage.js';
+
 class Counter extends HTMLElement{
 
-    template;
-    style;
     shadowRoot;
+    template;
+    style;    
+    counterStorage;   
     
     constructor(){
         super();
         this.createTemplate();
         this.shadowRoot = this.attachShadow({mode: 'open'});
+        this.counterStorage = new CounterStorage();
     }
 
     createTemplate(){
@@ -37,13 +41,16 @@ class Counter extends HTMLElement{
 
     eventBuilder() {      
         this.shadowRoot.querySelector('#plusButton').addEventListener('click', ()=>{
-            this.dispatchEvent(new CustomEvent('plusButtonClicked'));
+            //this.dispatchEvent(new CustomEvent('plusButtonClicked'));
+            this.counterStorage.increment5();
         });
         this.shadowRoot.querySelector('#minusButton').addEventListener('click', ()=>{    
-            this.dispatchEvent(new Event('minusButtonClicked'));
+            //this.dispatchEvent(new Event('minusButtonClicked'));
+            this.counterStorage.decrement5();
         });
         this.shadowRoot.querySelector('#resetButton').addEventListener('click', ()=>{            
-            this.dispatchEvent(new Event('resetButtonClicked'))
+            //this.dispatchEvent(new Event('resetButtonClicked'))
+            this.counterStorage.reset();
         });
     }
 
@@ -66,7 +73,17 @@ class Counter extends HTMLElement{
 
         this.eventBuilder();
 
-        console.log(this.getAttribute('value'));
+        this.startTicking();       
+    }
+
+    startTicking(){
+       this.timer = setInterval(
+           ()=>{
+                this.counterStorage.increment();
+                //console.log(this.counterStorage.getValue());
+                this.shadowRoot.querySelector('.counter').innerHTML = this.counterStorage.getValue();
+           }, 300
+       )
     }
 
 }
