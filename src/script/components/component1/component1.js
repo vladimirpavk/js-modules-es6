@@ -6,6 +6,7 @@ class Component1 extends HTMLElement{
     }
 
     connectedCallback(){
+        this.innerHTML = '';
         this.render();
     }
 

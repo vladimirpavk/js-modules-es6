@@ -2,14 +2,7 @@ let _value = 0;
 
 class CounterStorage{    
 
-    constructor(defaultValue){
-        if(defaultValue){
-            _value = defaultValue;
-        }           
-        else{
-            _value = 0;
-        }
-    }
+    constructor(){}
  
     getValue(){
         return _value;

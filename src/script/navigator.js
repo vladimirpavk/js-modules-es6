@@ -3,10 +3,10 @@ import Component2 from './components/component2/component2.js';
 
 class Navigator extends HTMLElement{
 
-    component1Visible;
+    /* component1Visible;
     component1;
     component2;
-    shadowRoot;
+    shadowRoot; */
     
     constructor(){
         super();

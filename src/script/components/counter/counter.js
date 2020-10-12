@@ -2,15 +2,15 @@ import CounterStorage from '../../utils/counterStorage.js';
 
 class Counter extends HTMLElement{
 
-    shadowRoot;
+  /*   shadowRoot;
     template;
     style;    
-    counterStorage;   
+    counterStorage;    */
     
     constructor(){
         super();
         this.createTemplate();
-        this.shadowRoot = this.attachShadow({mode: 'open'});
+        this.shadowRoot = this.attachShadow({mode: 'open'});    
         this.counterStorage = new CounterStorage();
     }
 
@@ -56,7 +56,13 @@ class Counter extends HTMLElement{
 
     //called when component is mounted
     connectedCallback(){       
+        this.innerHTML = '';
         this.render();
+    }
+
+    //calle dwhen component is dismounted
+    disconnectedCallback(){
+        clearTimeout(this.timer);
     }
 
     //called when component attribute is changed
@@ -79,10 +85,9 @@ class Counter extends HTMLElement{
     startTicking(){
        this.timer = setInterval(
            ()=>{
-                this.counterStorage.increment();
-                //console.log(this.counterStorage.getValue());
+                this.counterStorage.increment();             
                 this.shadowRoot.querySelector('.counter').innerHTML = this.counterStorage.getValue();
-           }, 300
+           }, 1000
        )
     }
 
@@ -91,9 +96,9 @@ class Counter extends HTMLElement{
 export default Counter;
 
 //register custom component
-window.customElements.whenDefined('co-unter').then(
+/* window.customElements.whenDefined('co-unter').then(
     (data)=>{
         console.log('co-unter defined', data);
     }
-);
+); */
 window.customElements.define('co-unter', Counter);
