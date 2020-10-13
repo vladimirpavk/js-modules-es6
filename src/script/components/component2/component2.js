@@ -11,8 +11,20 @@ class Component2 extends HTMLElement{
     }
 
     render(){
+        let titleContainer = document.createElement('div');
+        titleContainer.setAttribute('class', 'titleContainer');
+        let title = document.createElement('label');
+        title.setAttribute('class', 'pageTitle');
+        title.innerHTML = 'Page 2';
+        titleContainer.appendChild(title);
+
+        this.appendChild(titleContainer);
+
         let counterElement = document.createElement('co-unter');
         this.appendChild(counterElement);
+
+        let buttonContainer = document.createElement('div');
+        buttonContainer.setAttribute('class', 'buttonContainer');
 
         let prevPageButton = document.createElement('button');
         prevPageButton.setAttribute('class', 'prevPageButton')
@@ -20,7 +32,8 @@ class Component2 extends HTMLElement{
             this.dispatchEvent(new Event('prevPageClicked'));
         });
         prevPageButton.innerHTML = "Back to previous page";
-        this.appendChild(prevPageButton);
+        buttonContainer.appendChild(prevPageButton);
+        this.appendChild(buttonContainer);
 
         let linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');

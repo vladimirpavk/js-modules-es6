@@ -2,10 +2,10 @@ import CounterStorage from '../../utils/counterStorage.js';
 
 class Counter extends HTMLElement{
 
-  /*   shadowRoot;
+    shadowRoot;
     template;
     style;    
-    counterStorage;    */
+    counterStorage;   
     
     constructor(){
         super();
@@ -76,6 +76,8 @@ class Counter extends HTMLElement{
     render(){
         this.shadowRoot.appendChild(this.style);
         this.shadowRoot.appendChild(this.template.cloneNode(true));
+
+        this.shadowRoot.querySelector('.counter').innerHTML = this.counterStorage.getValue();
 
         this.eventBuilder();
 

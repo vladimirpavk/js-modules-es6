@@ -1,13 +1,10 @@
 div.container {   
-    height: 100%;
-    
+    height: 60%;
     display: flex;
     flex-direction: column;    
     justify-content: center;
     align-items: center; 
     font-family: 'Kufam', cursive;
-
-    border: 1px solid red;
 }
 
 .counterLabel{    
@@ -30,4 +27,10 @@ div.container {
     font-size: 3em;    
     border: 1px solid blue;
     border-radius: 5px;
+}
+
+.buttonContainer button:hover{
+    border-radius: 15px;
+    background-color: lightblue;
+    color: white;
 }

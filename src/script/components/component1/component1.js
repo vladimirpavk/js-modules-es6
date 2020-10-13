@@ -11,8 +11,20 @@ class Component1 extends HTMLElement{
     }
 
     render(){
+        let titleContainer = document.createElement('div');
+        titleContainer.setAttribute('class', 'titleContainer');
+        let title = document.createElement('label');
+        title.setAttribute('class', 'pageTitle');
+        title.innerHTML = 'Page 1';
+        titleContainer.appendChild(title);
+
+        this.appendChild(titleContainer);
+
         let counterElement = document.createElement('co-unter');
         this.appendChild(counterElement);
+
+        let buttonContainer = document.createElement('div');
+        buttonContainer.setAttribute('class', 'buttonContainer');
 
         let nextPageButton = document.createElement('button');
         nextPageButton.setAttribute('class', 'nextPageButton')
@@ -20,27 +32,14 @@ class Component1 extends HTMLElement{
             this.dispatchEvent(new Event('nextPageClicked'));
         });
         nextPageButton.innerHTML = "Go to next page";
-        this.appendChild(nextPageButton);
+        buttonContainer.appendChild(nextPageButton);
+        this.appendChild(buttonContainer);
 
         let linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');
         linkElement.setAttribute('href', './script/components/component1/component1.css');
 
-        this.appendChild(linkElement);
-        /* counterElement.addEventListener('plusButtonClicked', function(){
-            console.log('Counter +5 button clicked');
-        });
-        counterElement.addEventListener('minusButtonClicked', function(){
-            console.log('Counter -5 button clicked');
-        });
-        counterElement.addEventListener('resetButtonClicked', function(){
-            console.log('Counter reset button clicked');
-        });        */        
-/*      let val=0;
-        setInterval(()=>{
-            val++;
-            counterElement.setAttribute('value', val);
-        },300);  */
+        this.appendChild(linkElement);      
     }
 }
 
