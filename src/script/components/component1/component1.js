@@ -2,12 +2,14 @@ import Counter from '../counter/counter.js';
 
 class Component1 extends HTMLElement{
     constructor(){
-        super();    
+        super();            
     }
 
     connectedCallback(){
         this.innerHTML = '';
         this.render();
+
+        window.history.pushState({}, '', 'component1');
     }
 
     render(){

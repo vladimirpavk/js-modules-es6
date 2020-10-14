@@ -10,8 +10,16 @@ class Navigator extends HTMLElement{
     
     constructor(){
         super();
+
+        let name = '';
+        window.addEventListener('popstate', (event)=>{
+            console.log(event.currentTarget.location.pathname.slice(1));
+            name='pavle';
+        });
+
         this.shadowRoot = this.attachShadow({mode: 'closed'});
 
+        //default visible component
         this.component1Visible = true;
 
         this.component1 = document.createElement('component-1');
@@ -33,14 +41,10 @@ class Navigator extends HTMLElement{
 
     render(){    
         if(this.component1Visible){
-            //this.innerHTML = '';
-            /* this.appendChild(this.component1); */
             this.shadowRoot.innerHTML = '';
             this.shadowRoot.appendChild(this.component1);
         }
         else{
-           /*  this.innerHTML = '';
-            this.appendChild(this.component2); */
             this.shadowRoot.innerHTML = '';
             this.shadowRoot.appendChild(this.component2);
         }

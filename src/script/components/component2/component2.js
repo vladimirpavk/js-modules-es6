@@ -8,6 +8,8 @@ class Component2 extends HTMLElement{
     connectedCallback(){    
         this.innerHTML = '';
         this.render();
+
+        window.history.pushState({}, '', 'component2');
     }
 
     render(){
