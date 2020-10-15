@@ -7,6 +7,9 @@ class Navigator extends HTMLElement{
     component1;
     component2;
     shadowRoot;
+
+    pathComponentTagMap = [];
+    pathComponentMap = [];
     
     constructor(){
         super();
@@ -20,7 +23,7 @@ class Navigator extends HTMLElement{
         this.shadowRoot = this.attachShadow({mode: 'closed'});
 
         //default visible component
-        this.component1Visible = true;
+        /* this.component1Visible = true;
 
         this.component1 = document.createElement('component-1');
         this.component1.addEventListener('nextPageClicked', (e)=>{            
@@ -32,22 +35,62 @@ class Navigator extends HTMLElement{
         this.component2.addEventListener('prevPageClicked', (e)=>{            
             this.component1Visible = true;
             this.render();
-        });
+        }); */
+
+
+        this.pathComponentNameMap = [
+            {
+                componentTag: 'component-1',
+                pathName: '/component1'
+            },
+            {
+                componentTag: 'component-2',
+                pathName: '/component2'
+            }
+        ];
+
+        this.pathComponentNameMap.forEach(
+            (map)=>{
+                let tempComponent = document.createElement(map.componentTag);
+                tempComponent.addEventListener('navigate', (event)=>{
+                    //event.path - pathName of the component to navigate to
+                    //console.log(event.detail);
+                    this.render(event.detail);
+                });
+
+                this.pathComponentMap.push({                               
+                    component: tempComponent,
+                    pathName: map.pathName       
+                });
+            }
+        );
+        console.log(this.pathComponentNameMap, this.pathComponentMap);
     }
 
     connectedCallback(){
-        this.render();
+        this.render('/component1');
     }
 
-    render(){    
-        if(this.component1Visible){
+    render(pathName){    
+        /* if(this.component1Visible){
             this.shadowRoot.innerHTML = '';
             this.shadowRoot.appendChild(this.component1);
         }
         else{
             this.shadowRoot.innerHTML = '';
             this.shadowRoot.appendChild(this.component2);
-        }
+        } */
+        this.shadowRoot.innerHTML = '';
+        //this.shadowRoot.appendChild(this.pathComponentMap[0].component);
+        let componentToRender;
+        this.pathComponentMap.forEach(
+            (mapElement)=>{
+                if(mapElement.pathName === pathName){
+                    componentToRender = mapElement.component;
+                }
+            }
+        );
+        this.shadowRoot.appendChild(componentToRender);
     }
 
 }

@@ -32,6 +32,7 @@ class Component2 extends HTMLElement{
         prevPageButton.setAttribute('class', 'prevPageButton')
         prevPageButton.addEventListener('click', ()=>{
             this.dispatchEvent(new Event('prevPageClicked'));
+            this.dispatchEvent(new CustomEvent('navigate', { detail : '/component1'}));
         });
         prevPageButton.innerHTML = "Back to previous page";
         buttonContainer.appendChild(prevPageButton);

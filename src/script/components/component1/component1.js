@@ -32,6 +32,7 @@ class Component1 extends HTMLElement{
         nextPageButton.setAttribute('class', 'nextPageButton')
         nextPageButton.addEventListener('click', ()=>{
             this.dispatchEvent(new Event('nextPageClicked'));
+            this.dispatchEvent(new CustomEvent('navigate', { detail : '/component2'}));
         });
         nextPageButton.innerHTML = "Go to next page";
         buttonContainer.appendChild(nextPageButton);

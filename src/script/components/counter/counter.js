@@ -16,7 +16,7 @@ class Counter extends HTMLElement{
 
     createTemplate(){
         let HTMLString = `            
-            <label class="counterLabel">js-modules counter</label>
+            <label class="counterLabel">Minecraft rtx 1 computer clock</label>
             <label class="counter"></label>
             <div class="buttonContainer">
                 <button id="resetButton">Reset</button>
