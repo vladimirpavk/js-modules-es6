@@ -1,70 +1,28 @@
 import Component1 from './components/component1/component1.js';
 import Component2 from './components/component2/component2.js';
 
+import Config from './navigator.config.js';
+
 class Navigator extends HTMLElement{
 
     component1Visible;
     component1;
     component2;
     shadowRoot;
-
-    pathComponentTagMap = [];
-    pathComponentMap = [];
+    pathComponentMap;
     
     constructor(){
         super();
 
-        let name = '';
+        this.shadowRoot = this.attachShadow({mode: 'closed'});
+        this.pathComponentMap = new Config(this.render.bind(this)).navigateMap;
+
+       /*  let name = '';
         window.addEventListener('popstate', (event)=>{
             console.log(event.currentTarget.location.pathname.slice(1));
             name='pavle';
-        });
-
-        this.shadowRoot = this.attachShadow({mode: 'closed'});
-
-        //default visible component
-        /* this.component1Visible = true;
-
-        this.component1 = document.createElement('component-1');
-        this.component1.addEventListener('nextPageClicked', (e)=>{            
-            this.component1Visible = false;
-            this.render();
-        });
-
-        this.component2 = document.createElement('component-2');
-        this.component2.addEventListener('prevPageClicked', (e)=>{            
-            this.component1Visible = true;
-            this.render();
-        }); */
-
-
-        this.pathComponentNameMap = [
-            {
-                componentTag: 'component-1',
-                pathName: '/component1'
-            },
-            {
-                componentTag: 'component-2',
-                pathName: '/component2'
-            }
-        ];
-
-        this.pathComponentNameMap.forEach(
-            (map)=>{
-                let tempComponent = document.createElement(map.componentTag);
-                tempComponent.addEventListener('navigate', (event)=>{
-                    //event.path - pathName of the component to navigate to
-                    //console.log(event.detail);
-                    this.render(event.detail);
-                });
-
-                this.pathComponentMap.push({                               
-                    component: tempComponent,
-                    pathName: map.pathName       
-                });
-            }
-        );
-        console.log(this.pathComponentNameMap, this.pathComponentMap);
+        }); */             
+        //console.log(this.pathComponentNameMap, this.pathComponentMap);
     }
 
     connectedCallback(){

@@ -1,4 +1,5 @@
 import Counter from '../counter/counter.js';
+import { navigate } from '../../navigator.config.js';
 
 class Component1 extends HTMLElement{
     constructor(){
@@ -32,7 +33,8 @@ class Component1 extends HTMLElement{
         nextPageButton.setAttribute('class', 'nextPageButton')
         nextPageButton.addEventListener('click', ()=>{
             this.dispatchEvent(new Event('nextPageClicked'));
-            this.dispatchEvent(new CustomEvent('navigate', { detail : '/component2'}));
+            //this.dispatchEvent(new CustomEvent('navigate', { detail : '/component2'}));
+            navigate('/component2');
         });
         nextPageButton.innerHTML = "Go to next page";
         buttonContainer.appendChild(nextPageButton);
