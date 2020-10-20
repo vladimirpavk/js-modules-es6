@@ -9,8 +9,6 @@ class Component1 extends HTMLElement{
     connectedCallback(){
         this.innerHTML = '';
         this.render();
-
-        window.history.pushState({}, '', 'component1');
     }
 
     render(){
@@ -32,8 +30,6 @@ class Component1 extends HTMLElement{
         let nextPageButton = document.createElement('button');
         nextPageButton.setAttribute('class', 'nextPageButton')
         nextPageButton.addEventListener('click', ()=>{
-            this.dispatchEvent(new Event('nextPageClicked'));
-            //this.dispatchEvent(new CustomEvent('navigate', { detail : '/component2'}));
             navigate('/component2');
         });
         nextPageButton.innerHTML = "Go to next page";

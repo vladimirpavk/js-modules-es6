@@ -1,7 +1,9 @@
 import Component1 from './components/component1/component1.js';
 import Component2 from './components/component2/component2.js';
+import Component3 from './components/component3/component3.js';
 
-import Config from './navigator.config.js';
+//import Configure, {Config} from './navigator.config.js';
+import * as NavigatorConfig from './navigator.config.js';
 
 class Navigator extends HTMLElement{
 
@@ -15,29 +17,18 @@ class Navigator extends HTMLElement{
         super();
 
         this.shadowRoot = this.attachShadow({mode: 'closed'});
-        this.pathComponentMap = new Config(this.render.bind(this)).navigateMap;
+        //this.pathComponentMap = new Config(this.render.bind(this)).navigateMap;
 
-       /*  let name = '';
-        window.addEventListener('popstate', (event)=>{
-            console.log(event.currentTarget.location.pathname.slice(1));
-            name='pavle';
-        }); */             
-        //console.log(this.pathComponentNameMap, this.pathComponentMap);
+        //initialize navigator
+        NavigatorConfig.Initialize(this.render.bind(this));
+        this.pathComponentMap = NavigatorConfig.navigateMap();
     }
 
     connectedCallback(){
         this.render('/component1');
     }
 
-    render(pathName){    
-        /* if(this.component1Visible){
-            this.shadowRoot.innerHTML = '';
-            this.shadowRoot.appendChild(this.component1);
-        }
-        else{
-            this.shadowRoot.innerHTML = '';
-            this.shadowRoot.appendChild(this.component2);
-        } */
+    render(pathName){
         this.shadowRoot.innerHTML = '';
         //this.shadowRoot.appendChild(this.pathComponentMap[0].component);
         let componentToRender;

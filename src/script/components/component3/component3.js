@@ -1,14 +1,14 @@
 import Counter from '../counter/counter.js';
 import { navigate } from '../../navigator.config.js';
 
-class Component2 extends HTMLElement{    
+class Component3 extends HTMLElement{    
     constructor(){
         super();
     }
 
     connectedCallback(){    
         this.innerHTML = '';
-        this.render();
+        this.render();        
     }
 
     render(){
@@ -16,7 +16,7 @@ class Component2 extends HTMLElement{
         titleContainer.setAttribute('class', 'titleContainer');
         let title = document.createElement('label');
         title.setAttribute('class', 'pageTitle');
-        title.innerHTML = 'Page 2';
+        title.innerHTML = 'Page 3';
         titleContainer.appendChild(title);
 
         this.appendChild(titleContainer);
@@ -30,30 +30,22 @@ class Component2 extends HTMLElement{
         let prevPageButton = document.createElement('button');
         prevPageButton.setAttribute('class', 'prevPageButton')
         prevPageButton.addEventListener('click', ()=>{
-            navigate('/component1');
+            navigate('/component2');
         });
         prevPageButton.innerHTML = "Back to previous page";
-        buttonContainer.appendChild(prevPageButton);
-
-        let nextPageButton = document.createElement('button');
-        nextPageButton.setAttribute('class', 'nextPageButton')
-        nextPageButton.addEventListener('click', ()=>{
-            navigate('/component3');
-        });
-        nextPageButton.innerHTML = "Go to next page";
-        buttonContainer.appendChild(nextPageButton);
+        buttonContainer.appendChild(prevPageButton);      
 
         this.appendChild(buttonContainer);
 
         let linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');
-        linkElement.setAttribute('href', './script/components/component2/component2.css');
+        linkElement.setAttribute('href', './script/components/component3/component3.css');
 
         this.appendChild(linkElement);
     }
 }
 
-export default Component2;
+export default Component3;
 
 /* window.customElements.whenDefined('component-2').then(
     (data)=>{
@@ -61,4 +53,4 @@ export default Component2;
     }
 ); */
 
-window.customElements.define('component-2', Component2);
+window.customElements.define('component-3', Component3);
