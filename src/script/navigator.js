@@ -18,7 +18,6 @@ class Navigator extends HTMLElement{
 
         this.shadowRoot = this.attachShadow({mode: 'closed'});
         //this.pathComponentMap = new Config(this.render.bind(this)).navigateMap;
-
         //initialize navigator
         NavigatorConfig.Initialize(this.render.bind(this));
         this.pathComponentMap = NavigatorConfig.navigateMap();
@@ -29,8 +28,9 @@ class Navigator extends HTMLElement{
     }
 
     render(pathName){
+        window.history.pushState({}, '', pathName.slice(1));
+        
         this.shadowRoot.innerHTML = '';
-        //this.shadowRoot.appendChild(this.pathComponentMap[0].component);
         let componentToRender;
         this.pathComponentMap.forEach(
             (mapElement)=>{
@@ -41,7 +41,6 @@ class Navigator extends HTMLElement{
         );
         this.shadowRoot.appendChild(componentToRender);
     }
-
 }
 
 export default Navigator;

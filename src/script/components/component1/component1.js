@@ -2,8 +2,15 @@ import Counter from '../counter/counter.js';
 import { navigate } from '../../navigator.config.js';
 
 class Component1 extends HTMLElement{
+
+    canNavigate;
+
+    nextPageButton;
+
     constructor(){
         super();            
+
+        this.canNavigate = false;
     }
 
     connectedCallback(){
@@ -27,14 +34,30 @@ class Component1 extends HTMLElement{
         let buttonContainer = document.createElement('div');
         buttonContainer.setAttribute('class', 'buttonContainer');
 
-        let nextPageButton = document.createElement('button');
-        nextPageButton.setAttribute('class', 'nextPageButton')
-        nextPageButton.addEventListener('click', ()=>{
-            navigate('/component2');
+        this.nextPageButton = document.createElement('button');
+        this.nextPageButton.setAttribute('class', 'nextPageButton')
+        this.nextPageButton.addEventListener('click', ()=>{
+            if(this.canNavigate)
+                navigate('/component2');
         });
-        nextPageButton.innerHTML = "Go to next page";
-        buttonContainer.appendChild(nextPageButton);
+        this.nextPageButton.innerHTML = "Go to next page";
+        this.nextPageButton.disabled = true;
+        buttonContainer.appendChild(this.nextPageButton);
         this.appendChild(buttonContainer);
+
+        let canNavigateButton = document.createElement('button');
+        canNavigateButton.innerHTML = 'Enable navigation';
+        canNavigateButton.setAttribute('class', 'nextPageButton');
+        canNavigateButton.addEventListener('click', (event)=>{
+            this.canNavigate = !this.canNavigate;
+            if(!this.canNavigate){
+                this.nextPageButton.disabled = true;
+            }
+            else{
+                this.nextPageButton.disabled = false;
+            }
+        });
+        this.appendChild(canNavigateButton);
 
         let linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');

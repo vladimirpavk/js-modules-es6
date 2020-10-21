@@ -19,8 +19,9 @@ export const Initialize = (renderFn)=>{
     _renderFn = renderFn;
 
     window.addEventListener('popstate', (event)=>{
-        console.log(event.currentTarget.location.pathname.slice(1));
-        event.preventDefault();
+       /*  console.log(event.currentTarget.location.pathname.slice(1));
+        event.preventDefault(); */
+       // window.history.pushState(null, null, 'no-go-back');
     });
 
     _pathComponentNameMap.forEach(
@@ -34,8 +35,7 @@ export const Initialize = (renderFn)=>{
     );
 }
 
-export const navigate=(path)=>{
-    window.history.pushState({}, '', path.slice(1));
+export const navigate=(path)=>{    
     _renderFn(path);
 }
 
