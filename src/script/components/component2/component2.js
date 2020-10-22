@@ -11,6 +11,10 @@ class Component2 extends HTMLElement{
         this.render();
     }
 
+    disconnectedCallback(){
+        console.log('component2 is now disconnected...');
+    }
+
     render(){
         let titleContainer = document.createElement('div');
         titleContainer.setAttribute('class', 'titleContainer');
