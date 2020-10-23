@@ -18,17 +18,15 @@ let _renderFn = null;
 export const Initialize = (renderFn)=>{
     _renderFn = renderFn;
 
-    window.addEventListener('popstate', (event)=>{
-        console.log('popstate', event);
-        window.history.pushState(null, null, window.location.pathname);
-        /* console.log(window); */
-        //console.log(event.currentTarget.location.pathname.slice(1));        
-       // window.history.pushState(null, null, 'no-go-back')
-      // console.log(window.location.href);
+    window.addEventListener('popstate', (event)=>{             
        //navigate(event.currentTarget.location.pathname);
+       //console.log('popstate', window.history);
+      /*  window.history.back(1);
+       window.history.pushState({}, '', window.location.href); */
+       console.log(event.state);
     });
 
-    window.addEventListener('pageshow', (event)=>{
+ /*    window.addEventListener('pageshow', (event)=>{
         console.log('pageshow', event);
     });
 
@@ -38,7 +36,7 @@ export const Initialize = (renderFn)=>{
 
     window.addEventListener('hashchange', (event)=>{
         console.log('hashchange', event);
-    })
+    }) */
 
     _pathComponentNameMap.forEach(
         (map)=>{
@@ -51,8 +49,8 @@ export const Initialize = (renderFn)=>{
     );
 }
 
-export const navigate=(path)=>{    
-    _renderFn(path);
+export const navigate=(path, componentState)=>{    
+    _renderFn(path, componentState);
 }
 
 export const navigateMap = ()=>{

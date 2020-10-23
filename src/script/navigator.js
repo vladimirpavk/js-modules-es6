@@ -27,8 +27,8 @@ class Navigator extends HTMLElement{
         this.render('/component1');
     }
 
-    render(pathName){
-        window.history.pushState({}, '', pathName.slice(1));
+    render(pathName, componentState){
+        window.history.pushState(componentState, '', pathName.slice(1));
         
         this.shadowRoot.innerHTML = '';
         let componentToRender;

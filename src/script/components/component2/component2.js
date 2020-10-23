@@ -2,17 +2,33 @@ import Counter from '../counter/counter.js';
 import { navigate } from '../../navigator.config.js';
 
 class Component2 extends HTMLElement{    
-    constructor(){
-        super();
+
+    _canNavigate;
+    get canNavigate(){
+        return this._canNavigate;
+    }
+    set canNavigate(value){
+        console.log('canNavigate value changed, new value ', value);
+        this._canNavigate = value;             
+        window.history.pushState({canNavigate2:value}, '', '');
     }
 
-    connectedCallback(){    
-        this.innerHTML = '';
+    constructor(){
+        super();        
+    }
+
+    connectedCallback(){            
+        this.innerHTML = '';        
+        this.canNavigate = false;
+
+        console.log(window.history.state);
+
         this.render();
     }
 
     disconnectedCallback(){
-        console.log('component2 is now disconnected...');
+        console.log('component2 is now disconnected...');        
+        window.history.pushState({canNavigate2:canNavigate}, '', window.location.href); 
     }
 
     render(){
