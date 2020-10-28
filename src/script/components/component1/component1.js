@@ -3,13 +3,18 @@ import { navigate } from '../../navigator.config.js';
 
 class Component1 extends HTMLElement{
 
-    _canNavigate;
+   /*  _canNavigate;
     get canNavigate(){
         return this._canNavigate;
     }
     set canNavigate(value){
-        //console.log('canNavigate value changed, new value ', value);
         this._canNavigate = value;        
+    } */
+    get canNavigate(){
+        return window._canNavigate;
+    }
+    set canNavigate(value){
+        window._canNavigate = value;
     }
 
     nextPageButton;
@@ -44,8 +49,10 @@ class Component1 extends HTMLElement{
         this.nextPageButton = document.createElement('button');
         this.nextPageButton.setAttribute('class', 'nextPageButton')
         this.nextPageButton.addEventListener('click', ()=>{
-            if(this.canNavigate)
+            if(this.canNavigate){
+                console.log(this.canNavigate);
                 navigate('/component2', {canNavigate1: this.canNavigate});
+            }                
         });
         this.nextPageButton.innerHTML = "Go to next page";
         this.nextPageButton.disabled = true;

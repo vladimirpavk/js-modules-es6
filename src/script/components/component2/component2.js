@@ -3,14 +3,20 @@ import { navigate } from '../../navigator.config.js';
 
 class Component2 extends HTMLElement{    
 
-    _canNavigate;
+  /*   _canNavigate;
     get canNavigate(){
         return this._canNavigate;
     }
     set canNavigate(value){
         console.log('canNavigate value changed, new value ', value);
-        this._canNavigate = value;             
-        window.history.pushState({canNavigate2:value}, '', '');
+        this._canNavigate = value;                     
+    } */
+
+    get canNavigate(){
+        return window._canNavigate;
+    }
+    set canNavigate(value){
+        window._canNavigate = value;
     }
 
     constructor(){
@@ -20,6 +26,7 @@ class Component2 extends HTMLElement{
     connectedCallback(){            
         this.innerHTML = '';        
         this.canNavigate = false;
+        //window._pathOrigin = 'component2';
 
         console.log(window.history.state);
 

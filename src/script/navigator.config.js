@@ -18,26 +18,25 @@ let _renderFn = null;
 export const Initialize = (renderFn)=>{
     _renderFn = renderFn;
 
-    window.addEventListener('popstate', (event)=>{             
-       //navigate(event.currentTarget.location.pathname);
-       //console.log('popstate', window.history);
-      /*  window.history.back(1);
-       window.history.pushState({}, '', window.location.href); */
-       console.log(event.state);
+    window.addEventListener('popstate', (event)=>{
+       //console.log(event, window._canNavigate, event.currentTarget.location.pathname, window.location.href);
+       console.log(window._canNavigate);
+       if(window._canNavigate){
+           this.navigate(event.currentTarget.location.pathname)
+       }
+       else{
+           window.history.pushState({navigationError:true}, '', window._pathOrigin);
+           //cause a component to re-render
+           let tempComponent = _pathComponentMap.filter(
+               (mapEntry)=>{
+                   //console.log(mapEntry);
+                   return mapEntry.pathName===window._pathOrigin                   
+               });
+            console.log(tempComponent[0]);
+            tempComponent[0].render();
+       }
     });
-
- /*    window.addEventListener('pageshow', (event)=>{
-        console.log('pageshow', event);
-    });
-
-    window.addEventListener('pagehide', (event)=>{
-        console.log('pagehid', event);
-    });
-
-    window.addEventListener('hashchange', (event)=>{
-        console.log('hashchange', event);
-    }) */
-
+ 
     _pathComponentNameMap.forEach(
         (map)=>{
             let tempComponent = document.createElement(map.componentTag);
@@ -49,8 +48,8 @@ export const Initialize = (renderFn)=>{
     );
 }
 
-export const navigate=(path, componentState)=>{    
-    _renderFn(path, componentState);
+export const navigate=(path)=>{    
+    _renderFn(path);
 }
 
 export const navigateMap = ()=>{
