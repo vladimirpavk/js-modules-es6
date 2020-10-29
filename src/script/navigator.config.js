@@ -16,27 +16,11 @@ let _pathComponentMap = [];
 let _renderFn = null;
 
 export const Initialize = (renderFn)=>{
+    //define window.moduleNavigation state
+    window.moduleNavigation = {};
+
     _renderFn = renderFn;
 
-    window.addEventListener('popstate', (event)=>{
-       //console.log(event, window._canNavigate, event.currentTarget.location.pathname, window.location.href);
-       console.log(window._canNavigate);
-       if(window._canNavigate){
-           this.navigate(event.currentTarget.location.pathname)
-       }
-       else{
-           window.history.pushState({navigationError:true}, '', window._pathOrigin);
-           //cause a component to re-render
-           let tempComponent = _pathComponentMap.filter(
-               (mapEntry)=>{
-                   //console.log(mapEntry);
-                   return mapEntry.pathName===window._pathOrigin                   
-               });
-            console.log(tempComponent[0]);
-            tempComponent[0].render();
-       }
-    });
- 
     _pathComponentNameMap.forEach(
         (map)=>{
             let tempComponent = document.createElement(map.componentTag);
@@ -46,6 +30,24 @@ export const Initialize = (renderFn)=>{
             });
         }
     );
+
+    window.addEventListener('popstate', (event)=>{
+       //console.log(event, window.moduleNavigation, event.currentTarget.location.pathname, window.location.href);
+       console.log(window.moduleNavigation);
+       if(window.moduleNavigation.canNavigate){
+           this.navigate(event.currentTarget.location.pathname)
+       }
+       else{
+           //check if you want to show error msg
+           window.history.pushState({navigationError:true}, '', window.moduleNavigation.pathOrigin);
+           //cause a component to re-render and show error message or smtg like that
+           let tempComponent = _pathComponentMap.filter(
+               (mapEntry)=>{
+                   return mapEntry.pathName===window._pathOrigin                   
+               });            
+            tempComponent[0].component.render();
+       }
+    });   
 }
 
 export const navigate=(path)=>{    

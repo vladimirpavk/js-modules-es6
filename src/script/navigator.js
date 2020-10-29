@@ -26,12 +26,11 @@ class Navigator extends HTMLElement{
     }
 
     render(pathName){
-        //change url but now fire GET HTTP request
+        //change url but not fire GET HTTP request
         window.history.pushState({}, '', pathName.slice(1));
         window._pathOrigin = pathName;
 
-        //component render
-        this.shadowRoot.innerHTML = '';
+        //find the component we need to render        
         let componentToRender;
         this.pathComponentMap.forEach(
             (mapElement)=>{
@@ -40,6 +39,9 @@ class Navigator extends HTMLElement{
                 }
             }
         );
+        
+        //render the component
+        this.shadowRoot.innerHTML = '';
         this.shadowRoot.appendChild(componentToRender);
     }
 }

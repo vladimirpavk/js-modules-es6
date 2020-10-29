@@ -3,34 +3,36 @@ import { navigate } from '../../navigator.config.js';
 
 class Component1 extends HTMLElement{
 
-   /*  _canNavigate;
     get canNavigate(){
-        return this._canNavigate;
+        return window.moduleNavigation.canNavigate;
     }
     set canNavigate(value){
-        this._canNavigate = value;        
-    } */
-    get canNavigate(){
-        return window._canNavigate;
-    }
-    set canNavigate(value){
-        window._canNavigate = value;
+        window.moduleNavigation.canNavigate = value;
     }
 
+    get pathOrigin(){
+        return window.moduleNavigation.pathOrigin;
+    }
+    set pathOrigin(value){
+        window.moduleNavigation.pathOrigin = value;
+    }
+    
     nextPageButton;
 
     constructor(){
         super();                    
     }
 
-    connectedCallback(){
-        this.innerHTML = '';
+    connectedCallback(){                
+        //set navigation state       
         this.canNavigate = false;
-
+        this.pathOrigin = 'component1';
+        
         this.render();
     }
 
     render(){
+        this.innerHTML = '';
         let titleContainer = document.createElement('div');
         titleContainer.setAttribute('class', 'titleContainer');
         let title = document.createElement('label');

@@ -3,32 +3,28 @@ import { navigate } from '../../navigator.config.js';
 
 class Component2 extends HTMLElement{    
 
-  /*   _canNavigate;
     get canNavigate(){
-        return this._canNavigate;
+        return window.moduleNavigation.canNavigate;
     }
     set canNavigate(value){
-        console.log('canNavigate value changed, new value ', value);
-        this._canNavigate = value;                     
-    } */
+        window.moduleNavigation.canNavigate = value;
+    }
 
-    get canNavigate(){
-        return window._canNavigate;
+    get pathOrigin(){
+        return window.moduleNavigation.pathOrigin;
     }
-    set canNavigate(value){
-        window._canNavigate = value;
+    set pathOrigin(value){
+        window.moduleNavigation.pathOrigin = value;
     }
 
     constructor(){
         super();        
     }
 
-    connectedCallback(){            
-        this.innerHTML = '';        
+    connectedCallback(){                    
+        //set navigation state       
         this.canNavigate = false;
-        //window._pathOrigin = 'component2';
-
-        console.log(window.history.state);
+        this.pathOrigin = 'component2';
 
         this.render();
     }
@@ -39,11 +35,25 @@ class Component2 extends HTMLElement{
     }
 
     render(){
+        this.innerHTML = ''; 
+
+        console.log('render component 2');
+        console.log(window.history.state);        
+
         let titleContainer = document.createElement('div');
         titleContainer.setAttribute('class', 'titleContainer');
+
+        //show message if navigation blocked occured
+        if(window.history.state.navigationError){
+            let errorMsg = document.createElement('label');
+            errorMsg.setAttribute('class', 'errorMsg');
+            errorMsg.innerHTML = 'Blocked navigation !!!';
+            titleContainer.appendChild(errorMsg);
+        }       
+
         let title = document.createElement('label');
         title.setAttribute('class', 'pageTitle');
-        title.innerHTML = 'Page 2';
+        title.innerHTML = 'Page 2';                
         titleContainer.appendChild(title);
 
         this.appendChild(titleContainer);
@@ -55,7 +65,7 @@ class Component2 extends HTMLElement{
         buttonContainer.setAttribute('class', 'buttonContainer');
 
         let prevPageButton = document.createElement('button');
-        prevPageButton.setAttribute('class', 'prevPageButton')
+        prevPageButton.setAttribute('class', 'navigationButton');
         prevPageButton.addEventListener('click', ()=>{
             navigate('/component1');
         });
@@ -63,7 +73,8 @@ class Component2 extends HTMLElement{
         buttonContainer.appendChild(prevPageButton);
 
         let nextPageButton = document.createElement('button');
-        nextPageButton.setAttribute('class', 'nextPageButton')
+        nextPageButton.setAttribute('class', 'navigationButton');
+        nextPageButton.disabled = true;
         nextPageButton.addEventListener('click', ()=>{
             navigate('/component3');
         });

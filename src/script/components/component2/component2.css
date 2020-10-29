@@ -1,4 +1,4 @@
-.prevPageButton {
+.navigationButton {
     margin: auto;
     font-family: 'Kufam', cursive;
     font-size: 3em;    
@@ -6,21 +6,7 @@
     border-radius: 5px;
 }
 
-.prevPageButton:hover{
-    border-radius: 15px;
-    background-color: lightblue;
-    color: white;
-}
-
-.nextPageButton {    
-    margin: auto;
-    font-family: 'Kufam', cursive;
-    font-size: 3em;    
-    border: 1px solid blue;
-    border-radius: 5px;
-}
-
-.nextPageButton:hover{
+.navigationButton:hover{
     border-radius: 15px;
     background-color: lightblue;
     color: white;
@@ -38,6 +24,12 @@
 .pageTitle {
     font-family: 'Kufam', cursive;
     font-size: 7em;    
+}
+
+.errorMsg {
+    font-family: 'Kufam', cursive;
+    font-size: 3em;
+    color: red;
 }
 
 .titleContainer {
