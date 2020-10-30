@@ -3,6 +3,9 @@ import { navigate } from '../../navigator.config.js';
 
 class Component2 extends HTMLElement{    
 
+    _prevPageButton;
+    _nextPageButton;
+
     get canNavigate(){
         return window.moduleNavigation.canNavigate;
     }
@@ -64,22 +67,49 @@ class Component2 extends HTMLElement{
         let buttonContainer = document.createElement('div');
         buttonContainer.setAttribute('class', 'buttonContainer');
 
-        let prevPageButton = document.createElement('button');
-        prevPageButton.setAttribute('class', 'navigationButton');
-        prevPageButton.addEventListener('click', ()=>{
+        let navigationItem = document.createElement('div');
+        navigationItem.setAttribute('class', 'navigationItem');
+
+        let prevPageCheckBox = document.createElement('input');
+        prevPageCheckBox.type = "checkbox";
+        prevPageCheckBox.id = "prevPageCheckBox";
+        prevPageCheckBox.addEventListener('click', (event)=>{
+            //console.log(event.target.checked);
+            this._prevPageButton.disabled = !event.target.checked;
+        })
+
+        this._prevPageButton = document.createElement('button');
+        this._prevPageButton.setAttribute('class', 'navigationButton');
+        this._prevPageButton.addEventListener('click', ()=>{
             navigate('/component1');
         });
-        prevPageButton.innerHTML = "Back to previous page";
-        buttonContainer.appendChild(prevPageButton);
+        this._prevPageButton.innerHTML = "Back to previous page";
+        this._prevPageButton.disabled = true;
 
-        let nextPageButton = document.createElement('button');
-        nextPageButton.setAttribute('class', 'navigationButton');
-        nextPageButton.disabled = true;
-        nextPageButton.addEventListener('click', ()=>{
+        navigationItem.appendChild(prevPageCheckBox);
+        navigationItem.appendChild(this._prevPageButton);
+
+        buttonContainer.appendChild(navigationItem);
+
+        let navigationItem2 = document.createElement('div');
+        navigationItem2.setAttribute('class', 'navigationItem')
+
+        let nextPageCheckBox = document.createElement('input');
+        nextPageCheckBox.type = "checkbox";
+        nextPageCheckBox.id = 'nextPageCheckBox';
+
+        this._nextPageButton = document.createElement('button');
+        this._nextPageButton.setAttribute('class', 'navigationButton');
+        this._nextPageButton.disabled = true;
+        this._nextPageButton.addEventListener('click', ()=>{
             navigate('/component3');
         });
-        nextPageButton.innerHTML = "Go to next page";
-        buttonContainer.appendChild(nextPageButton);
+        this._nextPageButton.innerHTML = "Go to next page";
+
+        navigationItem2.appendChild(nextPageCheckBox);
+        navigationItem2.appendChild(this._nextPageButton);
+
+        buttonContainer.appendChild(navigationItem2);
 
         this.appendChild(buttonContainer);
 

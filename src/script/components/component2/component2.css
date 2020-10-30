@@ -21,6 +21,11 @@
     margin-top: 50px;
 }
 
+.navigationItem{
+    flex-direction: row;
+    align-items: center;
+}
+
 .pageTitle {
     font-family: 'Kufam', cursive;
     font-size: 7em;    
