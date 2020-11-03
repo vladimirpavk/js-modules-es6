@@ -1,6 +1,8 @@
 import Counter from '../counter/counter.js';
 import { navigate } from '../../navigator.config.js';
 
+import NavigationButton from '../common/navigationButton/navigationButton.js';
+
 class Component1 extends HTMLElement{
 
     get canNavigate(){
@@ -27,7 +29,7 @@ class Component1 extends HTMLElement{
         //set navigation state       
         this.canNavigate = false;
         this.pathOrigin = 'component1';
-        
+
         this.render();
     }
 
@@ -48,32 +50,19 @@ class Component1 extends HTMLElement{
         let buttonContainer = document.createElement('div');
         buttonContainer.setAttribute('class', 'buttonContainer');
 
-        this.nextPageButton = document.createElement('button');
-        this.nextPageButton.setAttribute('class', 'nextPageButton')
-        this.nextPageButton.addEventListener('click', ()=>{
-            if(this.canNavigate){
-                console.log(this.canNavigate);
-                navigate('/component2', {canNavigate1: this.canNavigate});
-            }                
+        let navigateButtonNext = document.createElement('nav-button');
+        navigateButtonNext.setAttribute('text', 'Go to next page');
+        navigateButtonNext.setAttribute('disabled', '');
+        navigateButtonNext.addEventListener('checked', (event)=>{
+            //console.log(event.detail.disabled);
+            this.canNavigate = !event.detail.disabled;            
         });
-        this.nextPageButton.innerHTML = "Go to next page";
-        this.nextPageButton.disabled = true;
-        buttonContainer.appendChild(this.nextPageButton);
+        navigateButtonNext.addEventListener('navigate', (event)=>{
+            console.log('navigate', event);
+        })
+        
+        buttonContainer.appendChild(navigateButtonNext);
         this.appendChild(buttonContainer);
-
-        let canNavigateButton = document.createElement('button');
-        canNavigateButton.innerHTML = 'Enable navigation';
-        canNavigateButton.setAttribute('class', 'nextPageButton');
-        canNavigateButton.addEventListener('click', (event)=>{
-            this.canNavigate = !this.canNavigate;
-            if(!this.canNavigate){
-                this.nextPageButton.disabled = true;
-            }
-            else{
-                this.nextPageButton.disabled = false;
-            }
-        });
-        this.appendChild(canNavigateButton);
 
         let linkElement = document.createElement('link');
         linkElement.setAttribute('rel', 'stylesheet');

@@ -1,0 +1,28 @@
+.navigationItem{
+    flex-direction: row;
+    align-items: center;
+}
+
+.navigationButton {
+    margin: auto;
+    font-family: 'Kufam', cursive;
+    font-size: 3em;    
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+
+.navigationButton:hover{
+    border-radius: 15px;
+    background-color: lightblue;
+    color: white;
+}
+
+.navigationButton:disabled,
+.navigationButton[disabled]{
+    margin: auto;
+    font-family: 'Kufam', cursive;
+    font-size: 3em;    
+    border: 1px solid blue;
+    border-radius: 5px;
+    background-color: grey;
+}

@@ -1,32 +1,8 @@
-.nextPageButton {    
-    margin: auto;
-    font-family: 'Kufam', cursive;
-    font-size: 3em;    
-    border: 1px solid blue;
-    border-radius: 5px;
-}
-
-.nextPageButton:hover{
-    border-radius: 15px;
-    background-color: lightblue;
-    color: white;
-}
-
-.nextPageButton:disabled,
-.nextPageButton[disabled]{
-    margin: auto;
-    font-family: 'Kufam', cursive;
-    font-size: 3em;    
-    border: 1px solid blue;
-    border-radius: 5px;
-    background-color: grey;
-}
-
 .buttonContainer {
     width: 100%;
     background-color: lightgrey;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     margin-top: 50px;
 }
