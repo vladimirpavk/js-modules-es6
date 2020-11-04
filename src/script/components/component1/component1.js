@@ -1,7 +1,4 @@
-import Counter from '../counter/counter.js';
 import { navigate } from '../../navigator.config.js';
-
-import NavigationButton from '../common/navigationButton/navigationButton.js';
 
 class Component1 extends HTMLElement{
 
@@ -53,12 +50,14 @@ class Component1 extends HTMLElement{
         let navigateButtonNext = document.createElement('nav-button');
         navigateButtonNext.setAttribute('text', 'Go to next page');
         navigateButtonNext.setAttribute('disabled', '');
-        navigateButtonNext.addEventListener('checked', (event)=>{
-            //console.log(event.detail.disabled);
+        navigateButtonNext.addEventListener('checked', (event)=>{           
             this.canNavigate = !event.detail.disabled;            
         });
         navigateButtonNext.addEventListener('navigate', (event)=>{
-            console.log('navigate', event);
+            //
+            if(this.canNavigate){
+                navigate('/component2');
+            }
         })
         
         buttonContainer.appendChild(navigateButtonNext);

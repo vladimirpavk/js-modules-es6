@@ -1,8 +1,6 @@
 class NavigationButton extends HTMLElement{
 
-    _disabled;
-    _shadowRoot;
-    _navigationButton;
+    
 
     get disabled(){
         return this._disabled;
@@ -17,6 +15,8 @@ class NavigationButton extends HTMLElement{
     constructor(){
         super();
 
+        this._disabled;
+        this._navigationButton;
         this._shadowRoot = this.attachShadow({mode:'closed'});
     }
 

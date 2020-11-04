@@ -1,7 +1,11 @@
+//import every component, define all custom elements
+//every module will execute only once no matter how many times is imported
 import Component1 from './components/component1/component1.js';
 import Component2 from './components/component2/component2.js';
 import Component3 from './components/component3/component3.js';
 
+import NavigationButton from './components/common/navigationButton/navigationButton.js';
+import Counter from './components/counter/counter.js';
 
 //import Configure, {Config} from './navigator.config.js';
 import * as NavigatorConfig from './navigator.config.js';

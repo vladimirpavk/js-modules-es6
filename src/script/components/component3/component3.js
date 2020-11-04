@@ -12,6 +12,11 @@ class Component3 extends HTMLElement{
     }
 
     render(){
+        let linkElement = document.createElement('link');
+        linkElement.setAttribute('rel', 'stylesheet');
+        linkElement.setAttribute('href', './script/components/component3/component3.css');
+        this.appendChild(linkElement);
+        
         let titleContainer = document.createElement('div');
         titleContainer.setAttribute('class', 'titleContainer');
         let title = document.createElement('label');
@@ -27,21 +32,22 @@ class Component3 extends HTMLElement{
         let buttonContainer = document.createElement('div');
         buttonContainer.setAttribute('class', 'buttonContainer');
 
-        let prevPageButton = document.createElement('button');
-        prevPageButton.setAttribute('class', 'prevPageButton')
-        prevPageButton.addEventListener('click', ()=>{
-            navigate('/component2');
+        let prevNavigationButton = document.createElement('nav-button');
+        prevNavigationButton.setAttribute('text', 'Back to previous page');
+        prevNavigationButton.setAttribute('disabled', '');
+        prevNavigationButton.addEventListener('checked', (event)=>{
+            //console.log('prevNav checked...');
+            this.canNavigate = !event.detail.disabled;
         });
-        prevPageButton.innerHTML = "Back to previous page";
-        buttonContainer.appendChild(prevPageButton);      
+        prevNavigationButton.addEventListener('navigate', (event)=>{
+            //console.log('preNav navigate...');
+            if(this.canNavigate){
+                navigate('/component2');
+            }
+        });
 
-        this.appendChild(buttonContainer);
-
-        let linkElement = document.createElement('link');
-        linkElement.setAttribute('rel', 'stylesheet');
-        linkElement.setAttribute('href', './script/components/component3/component3.css');
-
-        this.appendChild(linkElement);
+        buttonContainer.appendChild(prevNavigationButton);      
+        this.appendChild(buttonContainer);       
     }
 }
 
