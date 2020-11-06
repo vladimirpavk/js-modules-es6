@@ -6,6 +6,7 @@ import Component3 from './components/component3/component3.js';
 
 import NavigationButton from './components/common/navigationButton/navigationButton.js';
 import Counter from './components/counter/counter.js';
+import Modal from './components/common/modalDialog/modalDialog.js';
 
 //import Configure, {Config} from './navigator.config.js';
 import * as NavigatorConfig from './navigator.config.js';

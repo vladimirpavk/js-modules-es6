@@ -17,6 +17,7 @@ class Component1 extends HTMLElement{
     }
     
     nextPageButton;
+    _modalDialog;
 
     constructor(){
         super();                    
@@ -32,13 +33,18 @@ class Component1 extends HTMLElement{
 
     render(){
         this.innerHTML = '';
+
+        let linkElement = document.createElement('link');
+        linkElement.setAttribute('rel', 'stylesheet');
+        linkElement.setAttribute('href', './script/components/component1/component1.css');
+        this.appendChild(linkElement);      
+
         let titleContainer = document.createElement('div');
         titleContainer.setAttribute('class', 'titleContainer');
         let title = document.createElement('label');
         title.setAttribute('class', 'pageTitle');
         title.innerHTML = 'Page 1';
         titleContainer.appendChild(title);
-
         this.appendChild(titleContainer);
 
         let counterElement = document.createElement('co-unter');
@@ -58,21 +64,30 @@ class Component1 extends HTMLElement{
             if(this.canNavigate){
                 navigate('/component2');
             }
-        })
-        
+        })            
         buttonContainer.appendChild(navigateButtonNext);
-        this.appendChild(buttonContainer);
+        this.appendChild(buttonContainer);      
 
-        let linkElement = document.createElement('link');
-        linkElement.setAttribute('rel', 'stylesheet');
-        linkElement.setAttribute('href', './script/components/component1/component1.css');
+        this._modalDialog = document.createElement('mo-dal');
+        this._modalDialog.innerHTML = `
+            <div slot="modal_content">
+                <label>Proba</label>
+            </div>
+        `;
+        this.appendChild(this._modalDialog);
 
-        this.appendChild(linkElement);      
+        let modalButton = document.createElement('button');
+        modalButton.setAttribute('class', 'Button');
+        modalButton.innerHTML = 'Open modal';
+        modalButton.addEventListener('click', (event)=>{
+            //modalButton.classList.toggle('buttonY');
+
+        })
+        this.appendChild(modalButton);
     }
 }
 
 export default Component1;
-
 /* window.customElements.whenDefined('component-1').then(
     (data)=>{
         console.log('component-1 defined', data);
