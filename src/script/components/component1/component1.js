@@ -68,20 +68,14 @@ class Component1 extends HTMLElement{
         buttonContainer.appendChild(navigateButtonNext);
         this.appendChild(buttonContainer);      
 
-        this._modalDialog = document.createElement('mo-dal');
-        this._modalDialog.innerHTML = `
-            <div slot="modal_content">
-                <label>Proba</label>
-            </div>
-        `;
+        this._modalDialog = document.createElement('mo-dal');       
         this.appendChild(this._modalDialog);
 
         let modalButton = document.createElement('button');
         modalButton.setAttribute('class', 'Button');
         modalButton.innerHTML = 'Open modal';
-        modalButton.addEventListener('click', (event)=>{
-            //modalButton.classList.toggle('buttonY');
-
+        modalButton.addEventListener('click', (event)=>{        
+            this._modalDialog.open();
         })
         this.appendChild(modalButton);
     }
