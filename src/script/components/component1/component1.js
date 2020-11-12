@@ -69,6 +69,7 @@ class Component1 extends HTMLElement{
         this.appendChild(buttonContainer);      
 
         this._modalDialog = document.createElement('mo-dal');
+        this._modalDialog.innerHTML = `<p slot='slot1'>Text from slot...</p>`;
         this.appendChild(this._modalDialog);
 
         let modalButton = document.createElement('button');
