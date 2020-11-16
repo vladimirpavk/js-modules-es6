@@ -2,49 +2,43 @@
 class CanvasText extends HTMLElement{    
 
     _shadowRoot;
+    _canvas;
+    _ctx;
 
     constructor(){
         super();        
-        this._shadowRoot= this.attachShadow({mode:'closed'});
-
-        console.log('<canvas-text> constructor...');
-    }
-
-    _readFile(fileName){
-   
-        let fileReader = new FileReader();
-
-        fileReader.addEventListener('onload', (e)=>{
-            console.log(e);
-        });
-
-        fileReader.readAsText(fileName);
-
-        fileReader.onerror = (e)=>console.log(e);
-
-       
+        this._shadowRoot = this.attachShadow({mode:'closed'});
     }
 
     render(){
-    /*     //this._readFile('./canvasText.html');
-        fetch('file:///canvasText.html').then(
-            (r)=>console.log(r)
-        ).catch(
-            e=>console.log(e)
-        ) */
-
         let textNode = document.createElement('p')
         textNode.innerText = 'Pavle Pavković';        
         this._shadowRoot.appendChild(textNode);
 
-        let inputFile = document.createElement('input');
-        inputFile.type = 'file';
-        inputFile.onchange = (e)=>console.log(this._readFile(e.target.files[0]));
-        this._shadowRoot.appendChild(inputFile);
+        this._canvas = document.createElement('canvas');
+        this._canvas.setAttribute('width', '300px');
+        this._canvas.setAttribute('height', '300px');
+
+        this._canvas.style.border = '1px solid red';
+        
+        this._ctx = this._canvas.getContext('2d');
+        this._ctx.fillStyle = 'green';
+        this._ctx.fillRect(10, 10, 150, 100);
+
+        this._ctx.shadowOffsetX = 2;
+        this._ctx.shadowOffsetY = 2;
+        this._ctx.shadowBlur = 2;
+        this._ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+
+        this._ctx.font = '20px Times New Roman';
+        this._ctx.fillStyle = 'Black';
+        this._ctx.fillText('Sample String', 5, 30);
+
+        this._shadowRoot.appendChild(this._canvas);
     }
 
     connectedCallback(){
-        console.log('<canvas-text> connected callback...');
+        //console.log('<canvas-text> connected callback...');
         this.render();
     }
 

@@ -70,7 +70,9 @@ class Component1 extends HTMLElement{
 
         this._modalDialog = document.createElement('mo-dal');
         //this._modalDialog.innerHTML = `<p slot='slot1'>Text from slot...</p>`;
-        this._modalDialog.innerHTML = `<canvas-text slot="slot1"></canvas-text>`;
+        this._modalDialog.innerHTML = `<canvas-text slot="slot1"></canvas-text>`;        
+        //izbaciti u production verziji
+        this._modalDialog.setAttribute('opened', true);
         this.appendChild(this._modalDialog);
 
         let modalButton = document.createElement('button');
