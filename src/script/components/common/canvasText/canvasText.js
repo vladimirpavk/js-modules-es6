@@ -16,23 +16,31 @@ class CanvasText extends HTMLElement{
         this._shadowRoot.appendChild(textNode);
 
         this._canvas = document.createElement('canvas');
-        this._canvas.setAttribute('width', '300px');
-        this._canvas.setAttribute('height', '300px');
-
         this._canvas.style.border = '1px solid red';
-        
-        this._ctx = this._canvas.getContext('2d');
-        this._ctx.fillStyle = 'green';
-        this._ctx.fillRect(10, 10, 150, 100);
+        this._canvas.addEventListener('mousemove', (event)=>{
+            console.log(event.layerX, event.layerY);
+        });        
 
-        this._ctx.shadowOffsetX = 2;
-        this._ctx.shadowOffsetY = 2;
-        this._ctx.shadowBlur = 2;
-        this._ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        this._ctx = this._canvas.getContext('2d');        
 
-        this._ctx.font = '20px Times New Roman';
-        this._ctx.fillStyle = 'Black';
-        this._ctx.fillText('Sample String', 5, 30);
+        let sampleImage = new Image();
+        sampleImage.crossOrigin = 'anonymus';
+        sampleImage.src='./assets/tata_i_pile.jpg';
+        sampleImage.onload = ()=>{    
+            this._canvas.setAttribute('height', sampleImage.height);
+            this._canvas.setAttribute('width', sampleImage.width);
+            //console.log(sampleImage);            
+            this._ctx.drawImage(sampleImage, 0, 0);
+        };
+
+        this._canvas.addEventListener('click', (event)=>{
+            //console.log(sampleImage.data);
+            console.log(this._ctx.getImageData(event.layerX, event.layerY, 1, 1));
+        });
+
+        let sampleColorDiv = document.createElement('div');
+        sampleColorDiv.width = '100px';
+        sampleColorDiv.height = '100px';
 
         this._shadowRoot.appendChild(this._canvas);
     }
