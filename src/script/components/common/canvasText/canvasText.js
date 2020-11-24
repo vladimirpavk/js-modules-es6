@@ -13,31 +13,11 @@ class CanvasText extends HTMLElement{
         this._shadowRoot = this.attachShadow({mode:'closed'});
 
         this._template = `
-        <style>
-            .container{
-                display: flex;
-                flex: 1;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;                            
-                border: 5px solid blue;              
-            }           
-            #_canvas {
-                flex: 1;
-                border: 1px solid red;
-            }
-            #_new_canvas {
-                flex: 1;
-                border: 1px solid black;
-            }
-            #adjust{
-                flex: 1;
-                border: 5px solid magenta;      
-                height: 100%;                  
-            }
-        </style>
+            <link rel='stylesheet' href='./script/components/common/canvasText/canvasText.css'/>
             <canvas id="_canvas"></canvas>
-            <div id="adjust"></div>
+            <div id="adjust">
+
+            </div>
             <canvas id="_new_canvas"></canvas>
         `;
     }
@@ -61,7 +41,7 @@ class CanvasText extends HTMLElement{
         this._new_canvas = this._shadowRoot.getElementById('_new_canvas');
         this._new_ctx = this._new_canvas.getContext('2d');
 
-        let sampleImage = new Image();
+      /*   let sampleImage = new Image();
         sampleImage.crossOrigin = 'anonymus';
         sampleImage.src='./assets/tata_i_pile.jpg';
         sampleImage.onload = ()=>{    
@@ -69,10 +49,26 @@ class CanvasText extends HTMLElement{
             this._canvas.setAttribute('width', sampleImage.width);
             this._new_canvas.setAttribute('height', sampleImage.height);
             this._new_canvas.setAttribute('width', sampleImage.width);
-            //console.log(sampleImage);            
+                    
             this._ctx.drawImage(sampleImage, 0, 0);
-            this._new_ctx.drawImage(sampleImage, 0, 0);
-        };
+            
+            //go through every pixel then change color sampleImage.width/heigth is the same as _canvas.width/height
+            let computedImage = this._ctx.getImageData(0, 0, sampleImage.width, sampleImage.height);
+            let imageData = computedImage.data;            
+            let newImageData = [];                        
+            for(let x=0; x<imageData.length+4; x++){
+                newImageData.push(255-imageData[x], 255-imageData[x+1], 255-imageData[x+2], 255-imageData[x+3]);
+            }           
+            this._new_ctx.putImageData(computedImage, 0, 0);
+        }; */
+        let sampleImage = document.createElement('img');
+        sampleImage.src = './assets/tata_i_pile.jpg';
+        sampleImage.height = '300px';
+        sampleImage.width = '200px';
+        sampleImage.addEventListener('load', (eventData)=>{
+            //console.log(eventData);
+            this._ctx.drawImage(sampleImage, 0, 0);
+        });
     }
 
     render2(){

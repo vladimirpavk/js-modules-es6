@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;                            
+    border: 5px solid blue;              
+}           
+#_canvas {
+    flex: 1;
+    border: 1px solid red;
+}
+#_new_canvas {
+    flex: 1;
+    border: 1px solid black;
+}
+#adjust{
+    flex: 1;
+    border: 5px solid magenta;      
+    height: 100%;                  
+}
