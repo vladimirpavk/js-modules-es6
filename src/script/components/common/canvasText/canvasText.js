@@ -29,85 +29,41 @@ class CanvasText extends HTMLElement{
         this._shadowRoot.appendChild(rootDiv);
 
         this._canvas = this._shadowRoot.getElementById('_canvas');
+        this._ctx = this._canvas.getContext('2d');
+
         this._canvas.addEventListener('mousemove', (event)=>{
             let pixelData = this._ctx.getImageData(event.layerX, event.layerY, 1, 1).data;            
             rootDiv.style.background = `rgba(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]}, ${pixelData[3]})`;
 
             this._shadowRoot.getElementById('adjust').style.backgroundColor = `rgba(${pixelData[0]+30}, ${pixelData[1]+30}, ${pixelData[2]+30}, ${pixelData[3]+30})`
-        });        
-
-        this._ctx = this._canvas.getContext('2d');
+        });                
 
         this._new_canvas = this._shadowRoot.getElementById('_new_canvas');
         this._new_ctx = this._new_canvas.getContext('2d');
 
-      /*   let sampleImage = new Image();
-        sampleImage.crossOrigin = 'anonymus';
-        sampleImage.src='./assets/tata_i_pile.jpg';
-        sampleImage.onload = ()=>{    
-            this._canvas.setAttribute('height', sampleImage.height);
-            this._canvas.setAttribute('width', sampleImage.width);
-            this._new_canvas.setAttribute('height', sampleImage.height);
-            this._new_canvas.setAttribute('width', sampleImage.width);
-                    
-            this._ctx.drawImage(sampleImage, 0, 0);
-            
-            //go through every pixel then change color sampleImage.width/heigth is the same as _canvas.width/height
-            let computedImage = this._ctx.getImageData(0, 0, sampleImage.width, sampleImage.height);
-            let imageData = computedImage.data;            
-            let newImageData = [];                        
-            for(let x=0; x<imageData.length+4; x++){
-                newImageData.push(255-imageData[x], 255-imageData[x+1], 255-imageData[x+2], 255-imageData[x+3]);
-            }           
-            this._new_ctx.putImageData(computedImage, 0, 0);
-        }; */
         let sampleImage = document.createElement('img');
         sampleImage.src = './assets/tata_i_pile.jpg';
-        sampleImage.height = '300px';
-        sampleImage.width = '200px';
         sampleImage.addEventListener('load', (eventData)=>{
-            //console.log(eventData);
-            this._ctx.drawImage(sampleImage, 0, 0);
-        });
-    }
+            this._canvas.height = sampleImage.height;
+            this._new_canvas.height = sampleImage.height;
 
-    render2(){
-     /*    let textNode = document.createElement('p')
-        textNode.innerText = 'Pavle Pavković';        
-        this._shadowRoot.appendChild(textNode); */
+            this._ctx.drawImage(sampleImage, 0, 0, this._canvas.width, this._canvas.height);
 
-       /*  this._canvas = document.createElement('canvas');
-        this._canvas.style.border = '1px solid red'; */
+            let imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
 
-       
-
-     /*    this._canvas.addEventListener('mousemove', (event)=>{
-            console.log(event.layerX, event.layerY);
+            //imageData.data is image
+            let newImageData = [];
+            for(let x=0; x<imageData.data.length; x+=4){                
+                newImageData.push(255-imageData.data[x], 255-imageData.data[x+1], 255-imageData.data[x+2], imageData.data[x+3]);
+            }
+            //console.log(newImageData);
+            let newImageArray = new Uint8ClampedArray(newImageData);
+            let newImage = new ImageData(newImageArray, this._canvas.width, this._canvas.height);
+            this._new_ctx.putImageData(newImage, 0, 0);
         });        
-
-        this._ctx = this._canvas.getContext('2d');        
-
-        let sampleImage = new Image();
-        sampleImage.crossOrigin = 'anonymus';
-        sampleImage.src='./assets/tata_i_pile.jpg';
-        sampleImage.onload = ()=>{    
-            this._canvas.setAttribute('height', sampleImage.height);
-            this._canvas.setAttribute('width', sampleImage.width);
-            //console.log(sampleImage);            
-            this._ctx.drawImage(sampleImage, 0, 0);
-        };
-
-        this._canvas.addEventListener('click', (event)=>{
-            //console.log(sampleImage.data);
-            console.log(this._ctx.getImageData(event.layerX, event.layerY, 1, 1));
-        }); */
-
-      /*   let sampleColorDiv = document.createElement('div');
-        sampleColorDiv.width = '100px';
-        sampleColorDiv.height = '100px'; */
-
-        /* this._shadowRoot.appendChild(this._canvas); */
     }
+
+   
 
     connectedCallback(){
         //console.log('<canvas-text> connected callback...');
