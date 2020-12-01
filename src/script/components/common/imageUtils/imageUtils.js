@@ -23,10 +23,33 @@ export const enhanceColor = (color, amount, uintArray)=>{
     return new Uint8ClampedArray([newArray]);
 }
 
-export const inverColors = (uintArray)=>{
+export const invertColors = (uintArray)=>{
     let newArray = [];
     for(let x=0; x<uintArray.length; x=x+4){             
         newArray.push(255-uintArray[x], 255-uintArray[x+1], 255-uintArray[x+2]+amount, uintArray[x+3]);        
     }
     return new Uint8ClampedArray([newArray]);
+}
+
+export const colorLevels = (uintArray)=>{
+    let colorLevels = {
+        red: 0,
+        green: 0,
+        blue: 0,
+        alpha: 0
+    };
+
+    for(let x=0; x<uintArray.length; x=x+4){             
+        colorLevels.red += uintArray[x];
+        colorLevels.green += uintArray[x+1];
+        colorLevels.blue += uintArray[x+2];
+        colorLevels.alpha += uintArray[x+3];      
+    }
+    
+    colorLevels.red = Math.ceil(colorLevels.red/(uintArray.length/4));
+    colorLevels.green = Math.ceil(colorLevels.green/(uintArray.length/4));
+    colorLevels.blue = Math.ceil(colorLevels.blue/(uintArray.length/4));
+    colorLevels.alpha = Math.ceil(colorLevels.alpha/(uintArray.length/4));   
+
+    return colorLevels;
 }
