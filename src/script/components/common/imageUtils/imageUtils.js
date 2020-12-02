@@ -10,17 +10,49 @@ export const avgColors = (uintArray)=>{
 export const enhanceColor = (color, amount, uintArray)=>{
     let newArray = [];
     for(let x=0; x<uintArray.length; x=x+4){
-        if(color==='r'){    
-            newArray.push(uintArray[x]+amount, uintArray[x+1], uintArray[x+2], uintArray[x+3]);
+        if(color=='r'){             
+            let newValue = 0;
+            if(uintArray[x]+amount>255){
+                newValue = (uintArray[x]+amount)-255;
+            }
+            else{
+                newValue = uintArray[x]+amount;
+            }            
+            newArray.push(newValue, uintArray[x+1], uintArray[x+2], uintArray[x+3]);
         }
-        else if(color==='g'){            
-            newArray.push(uintArray[x], uintArray[x+1]+amount, uintArray[x+2], uintArray[x+3]);
+        else if(color=='g'){            
+            let newValue = 0;
+            if(uintArray[x+1]+amount>255){
+                newValue = (uintArray[x+1]+amount)-255;
+            }
+            else{
+                newValue = uintArray[x+1]+amount;
+            }            
+            newArray.push(newValue, newValue, uintArray[x+2], uintArray[x+3]);
         }
-        else if(color==='b'){            
-            newArray.push(uintArray[x], uintArray[x+1], uintArray[x+2]+amount, uintArray[x+3]);
+        else if(color=='b'){            
+            let newValue = 0;
+            if(uintArray[x+2]+amount>255){
+                newValue = (uintArray[x+2]+amount)-255;
+            }
+            else{
+                newValue = uintArray[x+2]+amount;
+            }            
+            newArray.push(newValue, uintArray[x+1], newValue, uintArray[x+3]);
+        }
+        else if(color=='a'){
+            let newValue = 0;
+            if(uintArray[x+3]+amount>255){
+                newValue = (uintArray[x+3]+amount)-255;
+            }
+            else{
+                newValue = uintArray[x+3]+amount;
+            }            
+            newArray.push(newValue, uintArray[x+1], uintArray[x+2], newValue);
         }
     }
-    return new Uint8ClampedArray([newArray]);
+    let returnArray = new Uint8ClampedArray(newArray)
+    return returnArray;
 }
 
 export const invertColors = (uintArray)=>{

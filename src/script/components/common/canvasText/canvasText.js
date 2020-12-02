@@ -1,5 +1,8 @@
 //read html template from file
-import { colorLevels } from '../imageUtils/imageUtils.js';
+import {
+    colorLevels,
+    enhanceColor
+} from '../imageUtils/imageUtils.js';
 
 class CanvasText extends HTMLElement{       
     
@@ -9,6 +12,7 @@ class CanvasText extends HTMLElement{
     _new_canvas;
     _ctx;
     _new_ctx;
+    _imageData;
 
     constructor(){
         super();        
@@ -49,34 +53,27 @@ class CanvasText extends HTMLElement{
             this._canvas.height = sampleImage.height;
             this._new_canvas.height = sampleImage.height;
             this._ctx.drawImage(sampleImage, 0, 0, this._canvas.width, this._canvas.height);
-            let imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
+            this._imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
 
-            const colorLevelsTemp = colorLevels(imageData.data);
+
+            //set default slider color levels
+            const colorLevelsTemp = colorLevels(this._imageData.data);
             
             let redSlider = this._shadowRoot.getElementById('redSlider');
             redSlider.setAttribute('initialvalue', colorLevelsTemp.red);
-            redSlider.addEventListener('valuechanged', (eventData)=>{
-                console.log(eventData.details);
-            });
+            redSlider.addEventListener('valuechanged', this.sliderEventHandler);
             
             let blueSlider = this._shadowRoot.getElementById('blueSlider');
             blueSlider.setAttribute('initialvalue', colorLevelsTemp.blue);
-            blueSlider.addEventListener('valuechanged', (eventData)=>{
-                console.log(eventData.details);
-            });
+            blueSlider.addEventListener('valuechanged', this.sliderEventHandler);
 
             let greenSlider = this._shadowRoot.getElementById('greenSlider');
             greenSlider.setAttribute('initialvalue', colorLevelsTemp.green);
-            greenSlider.addEventListener('valuechanged', (eventData)=>{
-                console.log(eventData.details);
-            });
+            greenSlider.addEventListener('valuechanged', this.sliderEventHandler);
 
             let alphaSlider = this._shadowRoot.getElementById('alphaSlider');
             alphaSlider.setAttribute('initialvalue', colorLevelsTemp.alpha);
-            alphaSlider.addEventListener('valuechanged', (eventData)=>{
-                console.log(eventData);
-            });
-            console.log(colorLevelsTemp);
+            alphaSlider.addEventListener('valuechanged', this.sliderEventHandler);
 
             /* let newImageArray = new Uint8ClampedArray(newImageData);
             let newImage = new ImageData(newImageArray, this._canvas.width, this._canvas.height);
@@ -84,7 +81,34 @@ class CanvasText extends HTMLElement{
         });        
     }
 
-   
+    sliderEventHandler = (eventData)=>{
+        //console.log(eventData.path[0].id);
+        //console.log(eventData.detail.newValue);
+        switch(eventData.path[0].id){
+            case('redSlider'):{
+                let newArray = enhanceColor('r', +eventData.detail.newValue, this._imageData.data);
+                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                break;
+            }
+            case('greenSlider'):{
+                let newArray = enhanceColor('g', +eventData.detail.newValue, this._imageData.data);
+                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                break;
+            }
+            case('blueSlider'):{
+                let newArray = enhanceColor('b', +eventData.detail.newValue, this._imageData.data);
+                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                break;
+            }
+            case('alphaSlider'):{
+                let newArray = enhanceColor('a', +eventData.detail.newValue, this._imageData.data);
+                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                break;
+            }
+            default:{            
+            }
+        }
+    }
 
     connectedCallback(){
         //console.log('<canvas-text> connected callback...');
