@@ -1,7 +1,9 @@
 //read html template from file
 import {
+    grayscale,
     colorLevels,
-    enhanceColor
+    enhanceColor,
+    invertColors    
 } from '../imageUtils/imageUtils.js';
 
 class CanvasText extends HTMLElement{       
@@ -13,6 +15,11 @@ class CanvasText extends HTMLElement{
     _ctx;
     _new_ctx;
     _imageData;
+
+    _redSlider;
+    _greenSlider;
+    _blueSlider;
+    _alphaSlider;
 
     constructor(){
         super();        
@@ -30,6 +37,11 @@ class CanvasText extends HTMLElement{
                 <sli-der id="blueSlider"></sli-der>
                 <label>Alpha</label>
                 <sli-der id="alphaSlider"></sli-der>
+                <div id="imgButtons">
+                    <button id="invert">Invert</button>
+                    <button id="grayscale">grayscale</button>
+                    <button id="reset">Reset</button>
+                </div>
             </div>
             <canvas id="_new_canvas"></canvas>
         `;
@@ -53,32 +65,59 @@ class CanvasText extends HTMLElement{
             this._canvas.height = sampleImage.height;
             this._new_canvas.height = sampleImage.height;
             this._ctx.drawImage(sampleImage, 0, 0, this._canvas.width, this._canvas.height);
-            this._imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
+            this._new_ctx.drawImage(sampleImage, 0, 0, this._canvas.width, this._canvas.height);
 
-
-            //set default slider color levels
-            const colorLevelsTemp = colorLevels(this._imageData.data);
+            this._imageData = this._new_ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
             
-            let redSlider = this._shadowRoot.getElementById('redSlider');
-            redSlider.setAttribute('initialvalue', colorLevelsTemp.red);
-            redSlider.addEventListener('valuechanged', this.sliderEventHandler);
-            
-            let blueSlider = this._shadowRoot.getElementById('blueSlider');
-            blueSlider.setAttribute('initialvalue', colorLevelsTemp.blue);
-            blueSlider.addEventListener('valuechanged', this.sliderEventHandler);
+            this._redSlider = this._shadowRoot.getElementById('redSlider');   
+            this._redSlider.addEventListener('valuechanged', this.sliderEventHandler);                 
+            this._blueSlider = this._shadowRoot.getElementById('blueSlider');
+            this._blueSlider.addEventListener('valuechanged', this.sliderEventHandler);
+            this._greenSlider = this._shadowRoot.getElementById('greenSlider');            
+            this._greenSlider.addEventListener('valuechanged', this.sliderEventHandler);
+            this._alphaSlider = this._shadowRoot.getElementById('alphaSlider');
+            this._alphaSlider.addEventListener('valuechanged', this.sliderEventHandler);
 
-            let greenSlider = this._shadowRoot.getElementById('greenSlider');
-            greenSlider.setAttribute('initialvalue', colorLevelsTemp.green);
-            greenSlider.addEventListener('valuechanged', this.sliderEventHandler);
-
-            let alphaSlider = this._shadowRoot.getElementById('alphaSlider');
-            alphaSlider.setAttribute('initialvalue', colorLevelsTemp.alpha);
-            alphaSlider.addEventListener('valuechanged', this.sliderEventHandler);
+            this.adjustSliderLevels();
 
             /* let newImageArray = new Uint8ClampedArray(newImageData);
             let newImage = new ImageData(newImageArray, this._canvas.width, this._canvas.height);
             this._new_ctx.putImageData(newImage, 0, 0); */
         });        
+
+        let grayscaleButton = this._shadowRoot.getElementById('grayscale');
+        grayscaleButton.addEventListener('click', (eventData)=>{
+            let newArrayX = grayscale(this._imageData.data);
+            let newImageData = new ImageData(newArrayX, this._canvas.width, this._canvas.height);
+            this._imageData = newImageData;
+            this._new_ctx.putImageData(newImageData, 0, 0);
+            this.adjustSliderLevels();
+        })
+
+        let invertButton = this._shadowRoot.getElementById('invert');
+        invertButton.addEventListener('click', (eventData)=>{
+            let newArray = invertColors(this._imageData.data);
+            let newImageData = new ImageData(newArray, this._canvas.width, this._canvas.height);
+            this._imageData = newImageData;
+            this._new_ctx.putImageData(newImageData, 0, 0);
+            this.adjustSliderLevels();
+        })        
+
+        let resetButton = this._shadowRoot.getElementById('reset');
+        resetButton.addEventListener('click', (eventData)=>{
+            this._imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
+            this._new_ctx.putImageData(this._imageData, 0, 0);
+            this.adjustSliderLevels();
+        })
+    }
+
+    adjustSliderLevels = ()=>{        
+        const colorLevelsTemp = colorLevels(this._imageData.data);
+
+        this._redSlider.setAttribute('initialvalue', colorLevelsTemp.red);        
+        this._blueSlider.setAttribute('initialvalue', colorLevelsTemp.blue);
+        this._greenSlider.setAttribute('initialvalue', colorLevelsTemp.green);        
+        this._alphaSlider.setAttribute('initialvalue', colorLevelsTemp.alpha);        
     }
 
     sliderEventHandler = (eventData)=>{
@@ -86,28 +125,31 @@ class CanvasText extends HTMLElement{
         //console.log(eventData.detail.newValue);
         switch(eventData.path[0].id){
             case('redSlider'):{
-                let newArray = enhanceColor('r', +eventData.detail.newValue, this._imageData.data);
-                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                this.changeColor(eventData.detail.newValue, 'r');                
                 break;
             }
             case('greenSlider'):{
-                let newArray = enhanceColor('g', +eventData.detail.newValue, this._imageData.data);
-                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                this.changeColor(eventData.detail.newValue, 'g');
                 break;
             }
             case('blueSlider'):{
-                let newArray = enhanceColor('b', +eventData.detail.newValue, this._imageData.data);
-                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                this.changeColor(eventData.detail.newValue, 'b');
                 break;
             }
             case('alphaSlider'):{
-                let newArray = enhanceColor('a', +eventData.detail.newValue, this._imageData.data);
-                this._new_ctx.putImageData(new ImageData(newArray, this._canvas.width, this._canvas.height), 0, 0);
+                this.changeColor(eventData.detail.newValue, 'a');
                 break;
             }
             default:{            
             }
         }
+    }
+
+    changeColor=(value, color)=>{
+        let newArray = enhanceColor(color, +value, this._imageData.data);
+        let newImageData = new ImageData(newArray, this._canvas.width, this._canvas.height);
+        this._imageData = newImageData;
+        this._new_ctx.putImageData(newImageData, 0, 0);
     }
 
     connectedCallback(){

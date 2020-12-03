@@ -58,10 +58,19 @@ export const enhanceColor = (color, amount, uintArray)=>{
 export const invertColors = (uintArray)=>{
     let newArray = [];
     for(let x=0; x<uintArray.length; x=x+4){             
-        newArray.push(255-uintArray[x], 255-uintArray[x+1], 255-uintArray[x+2]+amount, uintArray[x+3]);        
+        newArray.push(255-uintArray[x], 255-uintArray[x+1], 255-uintArray[x+2], uintArray[x+3]);        
     }
-    return new Uint8ClampedArray([newArray]);
+    return new Uint8ClampedArray(newArray);
 }
+
+export const grayscale = (uintArray)=>{    
+    let newArray = [];
+    for (let i = 0; i < uintArray.length; i += 4) {
+        let avg = (uintArray[i] + uintArray[i + 1] + uintArray[i + 2]) / 3;        
+        newArray.push(avg, avg, avg, uintArray[i+3]);
+    }
+    return new Uint8ClampedArray(newArray);
+};
 
 export const colorLevels = (uintArray)=>{
     let colorLevels = {
