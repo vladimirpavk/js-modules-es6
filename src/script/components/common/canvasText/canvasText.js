@@ -12,14 +12,18 @@ class CanvasText extends HTMLElement{
     _shadowRoot;
     _canvas;
     _new_canvas;
+    _zoom_canvas;
     _ctx;
     _new_ctx;
+    _zoom_canvas_ctx;
     _imageData;
 
     _redSlider;
     _greenSlider;
     _blueSlider;
     _alphaSlider;
+
+    _sampleImage;
 
     constructor(){
         super();        
@@ -44,6 +48,7 @@ class CanvasText extends HTMLElement{
                 </div>
             </div>
             <canvas id="_new_canvas"></canvas>
+            <canvas id="_zoom_canvas"></canvas>
         `;
     }
 
@@ -53,19 +58,38 @@ class CanvasText extends HTMLElement{
         rootDiv.innerHTML = this._template;
         this._shadowRoot.appendChild(rootDiv);
 
-        this._canvas = this._shadowRoot.getElementById('_canvas');
+        this._canvas = this._shadowRoot.getElementById('_canvas');   
+        this._canvas.addEventListener('mousemove', (eventData)=>{
+            //console.log(eventData.clientX, eventData.clientY);
+            this._new_ctx.drawImage(this._sampleImage, eventData.clientX, eventData.clientY, 200, 200, 0, 0, this._new_canvas.width, this._new_canvas.height);
+        });
         this._ctx = this._canvas.getContext('2d');
 
         this._new_canvas = this._shadowRoot.getElementById('_new_canvas');
+       /*  this._new_canvas.addEventListener('mousemove', (eventData)=>{
+             console.log(eventData);
+            //eventData.screenX, eventData.screenY
+            //this._zoom_canvas.position = 'fixed';
+            this._zoom_canvas.style.display = 'block';
+            /* this._zoom_canvas.style.left = eventData.screenX - 200;
+            this._zoom_canvas.style.top = eventData.screenY - 200; 
+            this._zoom_canvas.style.left = eventData.clientX+'px';
+            this._zoom_canvas.style.top = eventData.clientY+'px';
+            console.log('left - ' + this._zoom_canvas.style.left, 'top - ' + this._zoom_canvas.style.top);
+
+        }); */
         this._new_ctx = this._new_canvas.getContext('2d');
 
-        let sampleImage = document.createElement('img');
-        sampleImage.src = './assets/tata_i_pile.jpg';
-        sampleImage.addEventListener('load', (eventData)=>{
-            this._canvas.height = sampleImage.height;
-            this._new_canvas.height = sampleImage.height;
-            this._ctx.drawImage(sampleImage, 0, 0, this._canvas.width, this._canvas.height);
-            this._new_ctx.drawImage(sampleImage, 0, 0, this._canvas.width, this._canvas.height);
+        this._zoom_canvas = this._shadowRoot.getElementById('_zoom_canvas');
+        this._zoom_canvas_ctx = this._zoom_canvas.getContext('2d');
+
+        this._sampleImage = document.createElement('img');
+        this._sampleImage.src = './assets/tata_i_pile.jpg';
+        this._sampleImage.addEventListener('load', (eventData)=>{
+            this._canvas.height = this._sampleImage.height;
+            this._new_canvas.height = this._sampleImage.height;
+            this._ctx.drawImage(this._sampleImage, 0, 0, this._canvas.width, this._canvas.height);
+            this._new_ctx.drawImage(this._sampleImage, 0, 0, this._canvas.width, this._canvas.height);
 
             this._imageData = this._new_ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
             

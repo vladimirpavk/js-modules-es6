@@ -5,13 +5,29 @@
     justify-content: space-between;
     align-items: center;                    
 }           
+
 #_canvas {
     flex: 1;
+    cursor: crosshair
 }
+
 #_new_canvas {
     flex: 1;;
 }
+
 #adjust{
     flex: 1;   
     height: 100%;                  
+}
+
+#_zoom_canvas{
+    /* default position none, when visible fixed/absolute*/
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 999;
+    width: 400px;
+    height: 400px;
+    border: 1px solid red;    
 }
