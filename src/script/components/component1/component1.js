@@ -69,10 +69,9 @@ class Component1 extends HTMLElement{
         this.appendChild(buttonContainer);      
 
         this._modalDialog = document.createElement('mo-dal');
-        //this._modalDialog.innerHTML = `<p slot='slot1'>Text from slot...</p>`;
         this._modalDialog.innerHTML = `<canvas-text slot="slot1"></canvas-text>`;        
         //izbaciti u production verziji
-        this._modalDialog.setAttribute('opened', true);
+        //this._modalDialog.setAttribute('opened', true);
         this.appendChild(this._modalDialog);
 
         let modalButton = document.createElement('button');
@@ -83,6 +82,18 @@ class Component1 extends HTMLElement{
             this._modalDialog.setAttribute('opened', true);
         })
         this.appendChild(modalButton);
+
+        let modalDialog2 = document.createElement('mo-dal');
+        modalDialog2.innerHTML = '';
+        this.appendChild(modalDialog2);
+
+        let modalButton2 = document.createElement('button');
+        modalButton2.setAttribute('class', 'Button');
+        modalButton2.innerHTML = 'Open zoom window';
+        modalButton2.addEventListener('click', (event)=>{
+            modalDialog2.setAttribute('opened', true);
+        });
+        this.appendChild(modalButton2);
     }
 }
 

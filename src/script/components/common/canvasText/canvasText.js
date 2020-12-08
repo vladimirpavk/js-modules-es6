@@ -58,27 +58,29 @@ class CanvasText extends HTMLElement{
         rootDiv.innerHTML = this._template;
         this._shadowRoot.appendChild(rootDiv);
 
-        this._canvas = this._shadowRoot.getElementById('_canvas');   
-        this._canvas.addEventListener('mousemove', (eventData)=>{
-            //console.log(eventData.clientX, eventData.clientY);
-            this._new_ctx.drawImage(this._sampleImage, eventData.clientX, eventData.clientY, 200, 200, 0, 0, this._new_canvas.width, this._new_canvas.height);
-        });
+        this._canvas = this._shadowRoot.getElementById('_canvas');        
         this._ctx = this._canvas.getContext('2d');
 
         this._new_canvas = this._shadowRoot.getElementById('_new_canvas');
-       /*  this._new_canvas.addEventListener('mousemove', (eventData)=>{
-             console.log(eventData);
-            //eventData.screenX, eventData.screenY
-            //this._zoom_canvas.position = 'fixed';
-            this._zoom_canvas.style.display = 'block';
-            /* this._zoom_canvas.style.left = eventData.screenX - 200;
-            this._zoom_canvas.style.top = eventData.screenY - 200; 
-            this._zoom_canvas.style.left = eventData.clientX+'px';
-            this._zoom_canvas.style.top = eventData.clientY+'px';
-            console.log('left - ' + this._zoom_canvas.style.left, 'top - ' + this._zoom_canvas.style.top);
-
-        }); */
         this._new_ctx = this._new_canvas.getContext('2d');
+
+        this._canvas.addEventListener('mousemove', (eventData)=>{
+            const canvasRect = this._canvas.getBoundingClientRect();
+
+            const posX = (eventData.clientX - canvasRect.left) / (canvasRect.right - canvasRect.left) * this._canvas.width;            
+            const posY = (eventData.clientY - canvasRect.top) / (canvasRect.bottom - canvasRect.top) * this._canvas.height;           
+
+            let x = Math.min(Math.max(0, posX - 32), this._sampleImage.width - 64);
+            let y = Math.min(Math.max(0, posY - 24), this._sampleImage.height - 48);
+            this._new_ctx.drawImage(this._sampleImage, x, y, 128, 96, 
+                0, 0, this._new_canvas.width, this._new_canvas.height);
+
+            //this._ctx.strokeRect(posX, posY, 1, 1);
+        });        
+
+        this._canvas.addEventListener('mouseout', (eventData)=>{
+            this._new_ctx.drawImage(this._sampleImage, 0, 0, this._canvas.width, this._canvas.height);
+        })    
 
         this._zoom_canvas = this._shadowRoot.getElementById('_zoom_canvas');
         this._zoom_canvas_ctx = this._zoom_canvas.getContext('2d');
