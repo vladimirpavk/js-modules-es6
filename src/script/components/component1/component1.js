@@ -83,8 +83,19 @@ class Component1 extends HTMLElement{
         })
         this.appendChild(modalButton);
 
+        let imageZoom = document.createElement('img');
+        imageZoom.src = './assets/slika_zoom.jpg';
+        imageZoom.width = 640;
+        imageZoom.height = 640;
+
         let modalDialog2 = document.createElement('mo-dal');
-        modalDialog2.innerHTML = '';
+        modalDialog2.innerHTML = `
+            <div slot="slot1">
+                <div class="imageFrame">
+                    <img src='./assets/slika_zoom.jpg' class="zoomImage"></img>
+                </div>
+            </div>
+        `;
         this.appendChild(modalDialog2);
 
         let modalButton2 = document.createElement('button');
