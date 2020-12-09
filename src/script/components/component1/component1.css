@@ -1,11 +1,10 @@
 .zoomImage{
-    position: absolute;
+    position: relative;
     top: -1000px;
-    left: -1000px;    
-    overflow: hidden;
+    left: -1000px;
 }
 
-.imageFrame{    
+.imageFrame{          
     border: 1px solid red;
     width: 640px;
     height: 640px;

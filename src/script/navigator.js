@@ -9,6 +9,7 @@ import Counter from './components/counter/counter.js';
 import Modal from './components/common/modalDialog/modalDialog.js';
 import CanvasText from './components/common/canvasText/canvasText.js';
 import Slider from './components/common/slider/slider.js';
+import ZoomImage from './components/common/zoomImage/zoomImage.js';
 
 //import Configure, {Config} from './navigator.config.js';
 import * as NavigatorConfig from './navigator.config.js';
