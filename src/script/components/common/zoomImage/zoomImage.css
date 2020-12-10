@@ -1,3 +1,20 @@
 .rootElement{
     border: 1px solid blueviolet;
 }
+
+.originalImage{
+    display: none;
+}
+
+.zoomImage{
+    position: relative;
+    top: -1000px;
+    left: -500px;
+}
+
+.imageFrame{          
+    border: 1px solid red;
+    width: 640px;
+    height: 640px;
+    overflow: hidden;
+}

@@ -89,12 +89,15 @@ class Component1 extends HTMLElement{
         imageZoom.height = 640;
 
         let modalDialog2 = document.createElement('mo-dal');
-        modalDialog2.innerHTML = `            
+        /* modalDialog2.innerHTML = `            
         <div slot="slot1">
             <div class="imageFrame">
                 <img src='./assets/slika_zoom.jpg' class="zoomImage"></img>
             </div>    
         </div>
+        `; */
+        modalDialog2.innerHTML = `
+            <zoom-image slot='slot1'></zoom-image>
         `;
         this.appendChild(modalDialog2);
 
