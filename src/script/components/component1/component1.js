@@ -96,8 +96,17 @@ class Component1 extends HTMLElement{
             </div>    
         </div>
         `; */
-        modalDialog2.innerHTML = `
+       /*  modalDialog2.innerHTML = `
             <zoom-image slot='slot1'></zoom-image>
+        `; */
+        modalDialog2.innerHTML = `
+            <zoom-image
+                slot='slot1'
+                width="640px"
+                height="640px"
+                originalsrc='./assets/slika.jpg'
+                zoomsrc='./assets/slika_zoom.jpg'>
+            </zoom-image>
         `;
         this.appendChild(modalDialog2);
 
