@@ -1,15 +1,18 @@
 .rootElement{
-    border: 1px solid blueviolet;
+    /* border: 1px solid blueviolet; */
 }
 
 .originalImage{
-    display: none;
+    display: block;    
 }
 
 .zoomImage{
+    display: none;
     position: relative;
-    top: -1000px;
-    left: -500px;
+   /*  top: -1000px;
+    left: -500px; */
+    top: 0px;
+    left: 0px;
 }
 
 .imageFrame{          

@@ -101,8 +101,8 @@ class Component1 extends HTMLElement{
         `; */
         modalDialog2.innerHTML = `
             <zoom-image
-                slot='slot1'
-                width="640px"
+                slot='slot1'                
+                width="640px"                                
                 height="640px"
                 originalsrc='./assets/slika.jpg'
                 zoomsrc='./assets/slika_zoom.jpg'>

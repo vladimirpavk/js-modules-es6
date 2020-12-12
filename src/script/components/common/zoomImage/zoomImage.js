@@ -5,6 +5,8 @@ class ZoomImage extends HTMLElement{
 
     _imageFrame;
     _originalImage;
+    _originalImageWidth;
+    _originalImageHeight;
     _zoomedImage;
 
     _imagePreloadedPromise;
@@ -17,14 +19,21 @@ class ZoomImage extends HTMLElement{
         this._shadowRoot = this.attachShadow({mode:'closed'});
         this._template = `
             <link rel='stylesheet', href='./script/components/common/zoomImage/zoomImage.css'/>            
-            <div class='imageFrame'>
+            <div class='imageFrame' id='imageFrame'>
                 <img class='zoomImage' id='zoomImage'></img>
                 <img class='originalImage' id='originalImage'></img>
             </div>
-        `;
+        `;        
+        //initialize component
+        const rootElement = document.createElement('div');
+        rootElement.setAttribute('class', 'rootElement');
+        rootElement.innerHTML = this._template;
+        this._shadowRoot.appendChild(rootElement);
+
+        this._imageFrame = this._shadowRoot.getElementById('imageFrame');
     }
 
-    connectedCallback(){
+    connectedCallback(){        
         //check if all required attributes all set
         if(this.getAttribute('width') && this.getAttribute('height')){
             //both attributes are present
@@ -43,7 +52,10 @@ class ZoomImage extends HTMLElement{
             }            
         }
 
-        if(!this._canRender) return;
+        if(!this._canRender){
+            this._imageFrame.style.display = 'none';
+            return;
+        }
 
         this.preloadImages();
         
@@ -55,28 +67,25 @@ class ZoomImage extends HTMLElement{
             }
         ).catch(
             (error)=>{
+                this._imageFrame.style.display = 'none';
                 console.error(error);
             }
         );
     }
 
     preloadImages(){
-        //initialize component
-        const rootElement = document.createElement('div');
-        rootElement.setAttribute('class', 'rootElement');
-        rootElement.innerHTML = this._template;
-        this._shadowRoot.appendChild(rootElement);
+        
 
         this._zoomedImage = this._shadowRoot.getElementById('zoomImage');                
         this._originalImage = this._shadowRoot.getElementById('originalImage');
-
-        console.log(this._zoomedImage, this._originalImage);
-
+        
         this._imageLoadedPromise = new Promise(
             (resolve, reject)=>{
                 this._zoomedImage.addEventListener('load', (zoomedImageED)=>{
                     this._originalImage.addEventListener('load', (originalImagED)=>{
                         //both pictures loaded Promise resolved
+                        this._originalImageWidth = this._originalImage.width;
+                        this._originalImageHeight = this._originalImage.height;                        
                         resolve('<zoom-image>:::Pictures loaded correctly...');
                     });
                     this._originalImage.addEventListener('error', (eventDetail)=>{
@@ -94,10 +103,7 @@ class ZoomImage extends HTMLElement{
         );
     }
 
-    render(){            
-        this._imageFrame = this._shadowRoot.querySelectorAll('imageFrame')[0];
-        console.log(this._imageFrame);
-
+    render(){                           
         if(this._autoMode){
             //set width and height to original image width height imageFrame container
             this._imageFrame.style.width = this._originalImage.width;
@@ -108,9 +114,34 @@ class ZoomImage extends HTMLElement{
             this._imageFrame.style.width = this.getAttribute('width');
             this._imageFrame.style.height = this.getAttribute('height');
         }
-    }
 
-    
+        this._imageFrame.addEventListener('mousemove', (eventData)=>{
+            //console.log('mouse pointer in picture');
+            this._originalImage.style.display = 'none';
+            this._zoomedImage.style.display = 'block';
+
+           /*  console.log(eventData.clientX, eventData.clientY);
+            console.log(this._imageFrame.getBoundingClientRect()); */
+            
+            const imageRect = this._imageFrame.getBoundingClientRect();            
+            const posX = ((eventData.clientX - imageRect.left) / (imageRect.right - imageRect.left)) * imageRect.width;            
+            const posY = ((eventData.clientY - imageRect.top) / (imageRect.bottom - imageRect.top)) * imageRect.height;           
+            //console.log(posX, posY);            
+
+            const postXzoom = posX*(this._zoomedImage.width/this._originalImageWidth);
+            const postYzoom = posY*(this._zoomedImage.height/this._originalImageHeight);
+            //console.log(postXzoom, postYzoom);
+            
+            this._zoomedImage.style.top = -(postYzoom)+'px';
+            this._zoomedImage.style.left = -(postXzoom)+'px';
+            console.log(this._zoomedImage.style.top, this._zoomedImage.style.left);
+        });
+        this._imageFrame.addEventListener('mouseout', (eventData)=>{
+            //console.log('mouse pointer out of picture');
+            this._originalImage.style.display = 'block';
+            this._zoomedImage.style.display = 'none';
+        })
+    }    
 }
 
 window.customElements.define('zoom-image', ZoomImage);
