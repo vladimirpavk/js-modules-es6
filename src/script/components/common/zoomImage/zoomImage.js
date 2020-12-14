@@ -112,32 +112,27 @@ class ZoomImage extends HTMLElement{
         else{
             //set to attribute values
             this._imageFrame.style.width = this.getAttribute('width');
-            this._imageFrame.style.height = this.getAttribute('height');
+            this._imageFrame.style.height = this.getAttribute('height');            
         }
 
+        let iFrameWidth = +(this._imageFrame.style.width.substr(0, this._imageFrame.style.width.indexOf('px')));
+        let iFrameHeigth = +(this._imageFrame.style.height.substr(0, this._imageFrame.style.height.indexOf('px')));
+
         this._imageFrame.addEventListener('mousemove', (eventData)=>{
-            //console.log('mouse pointer in picture');
             this._originalImage.style.display = 'none';
             this._zoomedImage.style.display = 'block';
-
-           /*  console.log(eventData.clientX, eventData.clientY);
-            console.log(this._imageFrame.getBoundingClientRect()); */
             
             const imageRect = this._imageFrame.getBoundingClientRect();            
             const posX = ((eventData.clientX - imageRect.left) / (imageRect.right - imageRect.left)) * imageRect.width;            
-            const posY = ((eventData.clientY - imageRect.top) / (imageRect.bottom - imageRect.top)) * imageRect.height;           
-            //console.log(posX, posY);            
+            const posY = ((eventData.clientY - imageRect.top) / (imageRect.bottom - imageRect.top)) * imageRect.height;               
 
-            const postXzoom = posX*(this._zoomedImage.width/this._originalImageWidth);
-            const postYzoom = posY*(this._zoomedImage.height/this._originalImageHeight);
-            //console.log(postXzoom, postYzoom);
+            const postXzoom = posX*((this._zoomedImage.width - iFrameWidth)/iFrameWidth);
+            const postYzoom = posY*((this._zoomedImage.height - iFrameHeigth)/iFrameHeigth);
             
             this._zoomedImage.style.top = -(postYzoom)+'px';
             this._zoomedImage.style.left = -(postXzoom)+'px';
-            console.log(this._zoomedImage.style.top, this._zoomedImage.style.left);
         });
         this._imageFrame.addEventListener('mouseout', (eventData)=>{
-            //console.log('mouse pointer out of picture');
             this._originalImage.style.display = 'block';
             this._zoomedImage.style.display = 'none';
         })
