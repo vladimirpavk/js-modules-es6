@@ -21,9 +21,6 @@ class ZoomImage extends HTMLElement{
         this._shadowRoot = this.attachShadow({mode:'closed'});
         this._template = `
             <link rel='stylesheet', href='./script/components/common/zoomImage/zoomImage.css'/>            
-            <div>
-                <label id="mytext">My Text</label>
-            <div>
             <div class='imageFrame' id='imageFrame'>                
                     <img class='zoomImage' id='zoomImage'></img>                            
                     <img class='originalImage' id='originalImage'></img>                
@@ -119,7 +116,7 @@ class ZoomImage extends HTMLElement{
         );
     }
 
-    render(){                           
+    render(){                              
         if(this._autoMode){
             //set width and height to original image width height imageFrame container
             this._imageFrame.style.width = this._originalImage.width;
@@ -134,20 +131,13 @@ class ZoomImage extends HTMLElement{
         let iFrameWidth = +(this._imageFrame.style.width.substr(0, this._imageFrame.style.width.indexOf('px')));
         let iFrameHeigth = +(this._imageFrame.style.height.substr(0, this._imageFrame.style.height.indexOf('px')));
 
-        this._imageFrame.addEventListener('mousemove', (eventData)=>{
-            this._label.innerHTML = 'Mouse is in the game...';
-
-            this._imageFrame.style.border = '1px solid red';
-
-
-
-
-
-            //ovaj deo mora da se prepravi da bi radilo, ne može da se non stop menja na svaki pokret miša
-            this._originalImage.style.display = 'none';
+        this._imageFrame.addEventListener('mouseenter', (eventData)=>{
+            console.log('mousein', eventData);
+            this._originalImage.style.display = 'none';            
             this._zoomedImage.style.display = 'block';
             this._zoomedImage.style.border = '1px solid green';
-            
+        })
+        this._imageFrame.addEventListener('mousemove', (eventData)=>{                  
             const imageRect = this._imageFrame.getBoundingClientRect();            
             const posX = ((eventData.clientX - imageRect.left) / (imageRect.right - imageRect.left)) * imageRect.width;            
             const posY = ((eventData.clientY - imageRect.top) / (imageRect.bottom - imageRect.top)) * imageRect.height;               
@@ -155,16 +145,27 @@ class ZoomImage extends HTMLElement{
             const postXzoom = posX*((this._zoomedImage.width - iFrameWidth)/iFrameWidth);
             const postYzoom = posY*((this._zoomedImage.height - iFrameHeigth)/iFrameHeigth);
             
-            this._zoomedImage.style.top = -(postYzoom)+'px';
-            this._zoomedImage.style.left = -(postXzoom)+'px';
-            /* this._zoomedImage.style.setProperty('--image-top', -(postYzoom)+'px');
-            this._zoomedImage.style.setProperty('--image-left', -(postXzoom)+'px'); */
-            this._label.innerHTML = this._zoomedImage.style.top+' '+this._zoomedImage.style.left;
+            /* this._zoomedImage.style.top = -(postYzoom)+'px';
+            this._zoomedImage.style.left = -(postXzoom)+'px'; */
+            this._zoomedImage.style.setProperty('--image-top', -(postYzoom)+'px');
+            this._zoomedImage.style.setProperty('--image-left', -(postXzoom)+'px');
         });
-        this._imageFrame.addEventListener('mouseout', (eventData)=>{
+
+        this._imageFrame.addEventListener('mouseout', (eventData)=>{          
             this._originalImage.style.display = 'block';
             this._zoomedImage.style.display = 'none';
-        })
+        });
+
+        this._originalImage.addEventListener('mouseenter', (eventData)=>{
+            eventData.stopPropagation();
+        });
+        this._originalImage.addEventListener('mouseout', (eventData)=>{
+            eventData.stopPropagation();
+        });
+
+        this._zoomedImage.addEventListener('mouseenter', (eventData)=>{
+            eventData.stopPropagation();
+        });          
     }    
 }
 
