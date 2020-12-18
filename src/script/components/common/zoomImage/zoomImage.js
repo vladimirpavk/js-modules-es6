@@ -118,54 +118,67 @@ class ZoomImage extends HTMLElement{
 
     render(){                              
         if(this._autoMode){
-            //set width and height to original image width height imageFrame container
-            this._imageFrame.style.width = this._originalImage.width;
-            this._imageFrame.style.height = this._originalImage.height;
+            //set width and height to original image width height imageFrame container           
+            this._imageFrame.style.setProperty('--image-frame-width', this._originalImage.width);
+            this._imageFrame.style.setProperty('--image-frame-height', this._originalImage.height);
         }
         else{
-            //set to attribute values
-            this._imageFrame.style.width = this.getAttribute('width');
-            this._imageFrame.style.height = this.getAttribute('height');            
+            //set to attribute values         
+            this._imageFrame.style.setProperty('--image-frame-width', this.getAttribute('width'));
+            this._imageFrame.style.setProperty('--image-frame-height', this.getAttribute('height'));
         }
-
-        let iFrameWidth = +(this._imageFrame.style.width.substr(0, this._imageFrame.style.width.indexOf('px')));
-        let iFrameHeigth = +(this._imageFrame.style.height.substr(0, this._imageFrame.style.height.indexOf('px')));
-
+      
+        let iFrameWidth = +(this._imageFrame.style.getPropertyValue('--image-frame-width').substr(0, this._imageFrame.style.getPropertyValue('--image-frame-width').indexOf('px')));
+        let iFrameHeigth = +(this._imageFrame.style.getPropertyValue('--image-frame-height').substr(0, this._imageFrame.style.getPropertyValue('--image-frame-height').indexOf('px')));
+       
         this._imageFrame.addEventListener('mouseenter', (eventData)=>{
-            console.log('mousein', eventData);
-            this._originalImage.style.display = 'none';            
+            console.log('iframe - mouseenter');
+            /* this._originalImage.style.display = 'none'; */            
             this._zoomedImage.style.display = 'block';
-            this._zoomedImage.style.border = '1px solid green';
         })
-        this._imageFrame.addEventListener('mousemove', (eventData)=>{                  
-            const imageRect = this._imageFrame.getBoundingClientRect();            
+        this._imageFrame.addEventListener('mousemove', (eventData)=>{      
+            /* console.log('iframe - mousemove'); */
+
+            const imageRect = this._imageFrame.getBoundingClientRect();              
             const posX = ((eventData.clientX - imageRect.left) / (imageRect.right - imageRect.left)) * imageRect.width;            
             const posY = ((eventData.clientY - imageRect.top) / (imageRect.bottom - imageRect.top)) * imageRect.height;               
 
             const postXzoom = posX*((this._zoomedImage.width - iFrameWidth)/iFrameWidth);
             const postYzoom = posY*((this._zoomedImage.height - iFrameHeigth)/iFrameHeigth);
-            
-            /* this._zoomedImage.style.top = -(postYzoom)+'px';
-            this._zoomedImage.style.left = -(postXzoom)+'px'; */
+           
             this._zoomedImage.style.setProperty('--image-top', -(postYzoom)+'px');
             this._zoomedImage.style.setProperty('--image-left', -(postXzoom)+'px');
         });
 
-        this._imageFrame.addEventListener('mouseout', (eventData)=>{          
-            this._originalImage.style.display = 'block';
-            this._zoomedImage.style.display = 'none';
+        this._imageFrame.addEventListener('mouseout', (eventData)=>{  
+            console.log('iframe - mouseout');
+            /* this._originalImage.style.display = 'block'; */
+            /* this._zoomedImage.style.display = 'none'; */
         });
 
         this._originalImage.addEventListener('mouseenter', (eventData)=>{
-            eventData.stopPropagation();
+            console.log('originalImage - mouseenter');
+            ////eventData.stopPropagation();
+            this._zoomedImage.style.display = 'block';
         });
         this._originalImage.addEventListener('mouseout', (eventData)=>{
+            console.log('originalImage - mouseout');
             eventData.stopPropagation();
         });
 
         this._zoomedImage.addEventListener('mouseenter', (eventData)=>{
-            eventData.stopPropagation();
+            console.log('zoomedimage - mouseenter');
+            //eventData.stopPropagation();
         });          
+
+        this._zoomedImage.addEventListener('mouseout', (eventData)=>{
+            console.log('zoomediImage - mouseout');
+            this._zoomedImage.style.display = 'none';
+        });
+
+      /*   this._zoomedImage.addEventListener('mousemove', (eventData)=>{
+            console.log('zoomedImage - mousemove');
+        }) */
     }    
 }
 

@@ -1,6 +1,8 @@
 :root{
     --image-top: 0px;
-    --image-left: 0px;
+    --image-left: 0px;    
+    --image-frame-width: 0px;
+    --image-frame-height: 0px;
 }
 .rootElement{
     /* border: 1px solid blueviolet; */
@@ -20,4 +22,6 @@
 .imageFrame{              
     cursor: crosshair;
     overflow: hidden;
+    width: var(--image-frame-width);
+    height: var(--image-frame-height);
 }
