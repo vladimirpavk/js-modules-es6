@@ -89,23 +89,19 @@ class Component1 extends HTMLElement{
         imageZoom.height = 640;
 
         let modalDialog2 = document.createElement('mo-dal');
-        /* modalDialog2.innerHTML = `            
-        <div slot="slot1">
-            <div class="imageFrame">
-                <img src='./assets/slika_zoom.jpg' class="zoomImage"></img>
-            </div>    
-        </div>
-        `; */
+   
        /*  modalDialog2.innerHTML = `
-            <zoom-image slot='slot1'></zoom-image>
+            <zoom-image 
+                slot='slot1'   
+                originalsrc='./assets/slika.jpg'
+                zoomsrc='./assets/slika_zoom.jpg'>
+            </zoom-image>
         `; */
         modalDialog2.innerHTML = `
             <zoom-image
-                slot='slot1'                
-                width="640px"                                
-                height="640px"
-                originalsrc='./assets/slika.jpg'
-                zoomsrc='./assets/slika_zoom.jpg'>
+                slot='slot1'
+                originalsrc='./assets/pavkovici_smanjeno.jpg'
+                zoomsrc='./assets/pavkovici.jpg'>
             </zoom-image>
         `;
         this.appendChild(modalDialog2);
